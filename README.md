@@ -1,6 +1,6 @@
 This project is an experiment where I wrote a chess bot for [chess.com](https://chess.com/live)
 
-# Install all
+# Install
 
     $> lerna bootstrap
 
@@ -8,11 +8,12 @@ or
 
     $> yarn 
 
-# Build all
+# Build
 
      $> lerna run build
      
 # Run - WebAssembly Stockfish
+In order to play you it needs to be able to login, so add your chess.com credentials in [./packages/bot/.env](packages/bot/.env). Then start the bot
 
     $> lerna run start:bot
 
@@ -21,7 +22,7 @@ bottom left corner. If you select a bot and hit `Play` the WebAssembly Stockfish
 
 # Run - Docker Stockfish
 This one is a bit more complicated. Fist you need to make sure the OpenBook is working. Read the 
-[readme](./packes/books/README.md) on how to get that up&running. Next you need Docker.
+[readme](packages/books/README.md) on how to get that one up&running. And you need Docker too!
 
 Finally you have to configure the browser bundle. Open the file `./packages/bot/src/frontend/environment.ts`.
 It will have these lines
@@ -39,16 +40,17 @@ It will have these lines
             // 'chess.uci': 'browser.chess.uci.backend
 
 Comment out the 2 lines below  `Pure browser engine` and uncomment the single line below `Pure backend engine`.
-Thats all, and now do (from the root of the project)
+Thats all, lets build this and play (from the root of the project)
 
     $> lerna run build
     $> lerna run start
 
-Thats it, good luck with that. If things don't work and require more work, please create a Pull Request!!
+Thats it, good luck with that. If things don't work and require a fix or improvement, please feel free to create a Pull Request!!
 
 # Nice games
 
    * 4303717585
+   * ...
 
 
 ### Bookmarks
