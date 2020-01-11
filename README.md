@@ -54,10 +54,10 @@ Thats it, good luck with that. If things don't work and require more work, pleas
 ### Bookmarks
 Checkout the other READMEs as well
 
-  * [bot](./packages/bot/README.md)
-  * [engine](./packages/engine/README.md)
-  * [opening book](./packages/book/README.md)
-  * 
+  * [bot](packages/bot/README.md)
+  * [engine](packages/engines/README.md)
+  * [opening book](packages/books/README.md)
+  
 
   * UCI protocol: http://wbec-ridderkerk.nl/html/UCIProtocol.html
   * instead of UCI proto: https://www.gnu.org/software/xboard/engine-intf.html
