@@ -13,7 +13,7 @@ or
      $> lerna run build
      
 # Run - WebAssembly Stockfish
-In order to play you it needs to be able to login, so add your chess.com credentials in [./packages/bot/.env](packages/bot/.env). Then start the bot
+In order to play the chess bot needs to be able to login, so add your chess.com credentials in [./packages/bot/.env](packages/bot/.env). Then start the bot
 
     $> lerna run start:bot
 
