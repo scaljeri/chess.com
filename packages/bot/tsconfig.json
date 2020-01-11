@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "noEmitHelpers": true,
+    "importHelpers": true,
+    "lib": [
+      "es2015",
+      "es2017",
+      "dom"
+    ]
+  }
+}

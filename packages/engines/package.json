@@ -1,0 +1,61 @@
+{
+  "name": "@scaljeri/chess-engine",
+  "version": "1.0.0",
+  "description": "> TODO: description",
+  "author": "Lucas Calje <lucas@calje.eu>",
+  "homepage": "",
+  "license": "ISC",
+  "main": "lib/chess-engine.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "rm -rf ./dist && tsc -p tsconfig.build.json",
+    "build:base": "docker build -t scaljeri/node -f ./docker/Dockerfile-base .",
+    "build:sf": "yarn build && docker build -t scaljeri/sf -f ./docker/Dockerfile-sf ../..",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "start": "CHESS_ENGINE=fs node ./dist/src/websockets/main.js",
+    "start:dev": "nodemon",
+    "start:debug": "nodemon --config nodemon-debug.json",
+    "run:sf": "CHESS_ENGINE=fs node ./dist/src/websockets/main.js",
+    "run:lc0": "CHESS_ENGINE=lc0 node ./dist/src/websockets/main.js",
+    "prestart:prod": "rimraf dist && npm run build",
+    "start:prod:local": "node dist/main.js",
+    "lint": "tslint -p tsconfig.json -c tslint.json",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "start:prod": "docker-compose up",
+    "test:engine": "ts-node src/test-client.ts",
+    "engine": "docker-compose up --scale engine=3"
+  },
+  "dependencies": {
+    "@nestjs/common": "6.1.1",
+    "@nestjs/core": "6.1.1",
+    "@nestjs/platform-express": "^6.3.1",
+    "@nestjs/platform-socket.io": "^6.3.1",
+    "@nestjs/websockets": "^6.3.1",
+    "@scaljeri/chess-shared": "1.0.0",
+    "@types/node": "^12.0.8",
+    "@types/socket.io": "^2.1.2",
+    "browserify": "^16.2.3",
+    "chess-base": "^1.2.0",
+    "psaux": "^0.3.0",
+    "reflect-metadata": "0.1.13",
+    "rxjs": "6.5.2",
+    "typescript": "^3.5.2",
+    "websocket": "^1.0.28"
+  },
+  "devDependencies": {
+    "ts-node": "^8.3.0"
+  }
+}

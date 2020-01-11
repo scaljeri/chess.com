@@ -1,0 +1,21 @@
+{
+  "name": "statistics",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "stats": "ts-node ./src/process.ts",
+    "start": "rm -r ./dist && tsc && cp ./src/index.html ./dist && browserify ./dist/www/main.js -o ./dist/www/main.js && ts-node ./src/server.ts"
+  },
+  "devDependencies": {
+    "chess-base": "^1.2.0",
+    "express": "^4.17.1",
+    "socket.io-client": "^2.3.0",
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.4"
+  },
+  "dependencies": {
+    "browserify": "^16.5.0",
+    "@scaljeri/chess-shared": "1.0.0"
+  }
+}

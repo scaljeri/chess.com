@@ -1,0 +1,10 @@
+FROM scaljeri/base:latest
+WORKDIR /engine
+COPY ./packages/engine/dist ./dist
+COPY ./node_modules ./node_modules
+COPY ./packages/engine/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+EXPOSE 5000
+
+# CMD ["npm", "--prefix", "engine/service", "start"]
+CMD ["/usr/bin/supervisord"]

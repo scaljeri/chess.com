@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "noEmitHelpers": false,
+    "importHelpers": true,
+    "experimentalDecorators": true,
+    "lib": [
+      "es2015",
+      "es2017",
+      "dom"
+    ]
+  },
+  "exclude": ["node_modules", "./src/process.ts"],
+  "files": [
+    "./src/www/main.ts"
+  ]
+}

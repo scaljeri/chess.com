@@ -1,0 +1,11 @@
+{
+  "name": "@scaljeri/chess-book",
+  "version": "1.0.0",
+  "main": "search",
+  "license": "MIT",
+  "scripts": {},
+  "dependencies": {
+    "ts-node": "^8.3.0"
+  },
+  "devDependencies": {}
+}

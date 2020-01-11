@@ -1,0 +1,12 @@
+#!/bin/bash
+if test -f "$1"; then
+    PF=$1
+else
+    WEIGHT_FILE=${1:-${WEIGHT}}
+    WEIGHT_FILE=${WEIGHT_FILE:=LD2.pb.gz}
+    PATH=/weights
+    PF=${PATH}/$WEIGHT_FILE
+fi
+
+echo /lc0/build/release/lc0 -weights=${PATH}/${WEIGHT_FILE}
+/lc0/build/release/lc0 --weights=${PATH}/${WEIGHT_FILE}

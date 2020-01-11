@@ -1,0 +1,16 @@
+.log
+.DS_Store
+**/.DS_Store
+.jest-*
+lib
+node_modules
+lerna-debug.log
+npm-debug.log
+packages/*/lib
+.idea
+.map
+dist
+d.ts
+storage/*
+**/*-di.ts
+**/tmp/*

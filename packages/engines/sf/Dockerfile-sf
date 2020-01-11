@@ -1,0 +1,5 @@
+FROM jeanluca/base:latest
+RUN git clone https://github.com/official-stockfish/Stockfish.git &&\
+    cd Stockfish/src && make build ARCH=x86-64 && mv stockfish /sf &&\ 
+    cd / && rm -rf /Stockfish
+CMD ["/sf"]

@@ -1,0 +1,13 @@
+{
+  "name": "@scaljeri/chess-shared",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "rm -rf ./dist && tsc"
+  },
+  "dependencies": {
+    "chess-base": "^1.2.0",
+    "chess.js": "0.10.2"
+  }
+}

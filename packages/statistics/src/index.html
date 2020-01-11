@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="/www/main.js"></script>
+
+    <style>
+      .game-ids a {
+        cursor: pointer;
+      }
+      #chart-moves-durtation {
+        margin: 0 20px 20px 20px;
+      }
+
+      header {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: -40px;
+        position: relative;
+        z-index: 1;
+      }
+      h1 {
+        font-size: 25px;
+        margin-bottom: 0;
+      }
+
+      h2 {
+        font-size: 15px;
+        margin: 0;
+      }
+
+      main {
+        align-items: center;
+        display: inline-flex;
+        flex-direction: column;
+      }
+
+    </style>
+   
+  </head>
+
+  <body>
+    <div class="game-ids"></div>
+    <a href="" id="goto-element" target="_black">Goto Chess.com</a>
+
+    <main>
+        <header>
+          <h1 id="chart-title"></h1>
+          <h2 id="chart-subtitle"></h2>
+        </header>
+        <div id="chart-moves-durtation"></div>
+    </main>
+  </body>
+</html>

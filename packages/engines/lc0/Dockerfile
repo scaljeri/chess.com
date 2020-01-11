@@ -1,0 +1,7 @@
+From jeanluca/base:latest
+
+RUN apt update && apt install clang-6.0 ninja-build pkg-config protobuf-compiler libprotobuf-dev meson -y &&\
+    git clone https://github.com/LeelaChessZero/lc0.git &&\
+    cd lc0 && ./build.sh -Dblas=true -Deigen=true
+COPY ./weights /weights
+CMD ["/lc0/build/release/lc0", "--weights=/weights/weight-4305", "--threads=4" ]
