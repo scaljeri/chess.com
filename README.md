@@ -1,4 +1,5 @@
-This project is an experiment where I wrote a chess bot for [chess.com](https://chess.com/live)
+This project is an experiment where I wrote a chess bot for [chess.com](https://chess.com/live). You can
+checkout my article about this project [here](TODO).
 
 # Install
 
@@ -25,7 +26,7 @@ bottom left corner. If you select a bot and hit `Play` the WebAssembly Stockfish
 # Run - Docker Stockfish
 It is also possible to run the Docker Stockfish engine, which plays stronger. For that to work you need to reconfigure
 the bot ([README](packages/bot/README.md)). This bot also uses my OpeningBook, but that will probably not work
-out of the box ( [README](packages.books/README.md)). It will however work without it.
+out of the box ( [README](packages/books/README.md)). It will however work without it.
 
 Finally you have to configure the browser bundle a bit. Open the file `[./packages/bot/src/frontend/environment.ts](packages/bot/src/frontend/environment.ts)`.
 It will have these lines
@@ -65,6 +66,8 @@ Checkout the other READMEs as well
   * [opening book](packages/books/README.md)
   
 
+  * [Dependency Injection library](https://github.com/scaljeri/di-xxl)
+  * [EventHub library](https://github.com/scaljeri/eventhub-xxl)
   * UCI protocol: http://wbec-ridderkerk.nl/html/UCIProtocol.html
   * instead of UCI proto: https://www.gnu.org/software/xboard/engine-intf.html
   * Online FEN renderer: http://www.chess-poster.com/english/fen/fen_epd_viewer.htm
