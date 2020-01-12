@@ -1,4 +1,5 @@
-### Setup
+### Chess Opening Book
+
 This is a Python project which might not work out of the box on your machine. First install
 the chess modules: https://pypi.org/project/python-chess/
 
