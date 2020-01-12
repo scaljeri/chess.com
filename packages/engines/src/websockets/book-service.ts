@@ -7,9 +7,15 @@ export class BookService {
     private resolve = (moves: Move[]) => console.log(moves);
     private reject = (err) => console.error(err);
     private process: ChildProcessWithoutNullStreams;
+    private isDisabled = false;
 
     constructor() {
         this.process = spawn('../books/search');
+
+        this.process.on('exit', () => {
+            this.isDisabled = true;
+            console.log("OpeningBook is disabled");
+        });
 
         this.process.stderr.on('data', (data) => {
             this.reject('' + data);
@@ -29,11 +35,15 @@ export class BookService {
     }
 
     lookup(fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 0'): Promise<Move[]> {
-        return new Promise((resolve, reject) => {
-            this.resolve = resolve;
+        if (this.isDisabled) {
+            return Promise.resolve([]);
+        } else {
+            return new Promise((resolve, reject) => {
+                this.resolve = resolve;
 
-            this.process.stdin.write(`${fen}\n`);
-        });
+                this.process.stdin.write(`${fen}\n`);
+            });
+        }
     }
 
     async lookupRandom(fen?: string): Promise<Move> {

@@ -11,20 +11,23 @@ or
 # Build
 
      $> lerna run build
+
+The final step is to define your chess.com credentials. This is described [here](packages/bot/README.md).
      
 # Run - WebAssembly Stockfish
-In order to play the chess bot needs to be able to login, so add your chess.com credentials in [./packages/bot/.env](packages/bot/.env). Then start the bot
+My chess bot can be started as follows
 
     $> lerna run start:bot
 
-Thats all, if you're lucky it will work and the browser will be shown with the injected display in the 
+If you're lucky it will work and the browser will start and it shows the injected display at the 
 bottom left corner. If you select a bot and hit `Play` the WebAssembly Stockfish will start playing.
 
 # Run - Docker Stockfish
-This one is a bit more complicated. Fist you need to make sure the OpenBook is working. Read the 
-[readme](packages/books/README.md) on how to get that one up&running. And you need Docker too!
+It is also possible to run the Docker Stockfish engine, which plays stronger. For that to work you need to reconfigure
+the bot ([README](packages/bot/README.md)). This bot also uses my OpeningBook, but that will probably not work
+out of the box ( [README](packages.books/README.md)). It will however work without it.
 
-Finally you have to configure the browser bundle. Open the file `./packages/bot/src/frontend/environment.ts`.
+Finally you have to configure the browser bundle a bit. Open the file `[./packages/bot/src/frontend/environment.ts](packages/bot/src/frontend/environment.ts)`.
 It will have these lines
 
             // **** BOT CONFIGURATION ****/
@@ -39,8 +42,9 @@ It will have these lines
             // Pure backend engine
             // 'chess.uci': 'browser.chess.uci.backend
 
-Comment out the 2 lines below  `Pure browser engine` and uncomment the single line below `Pure backend engine`.
-Thats all, lets build this and play (from the root of the project)
+This is where I tell my [DI](https://github.com/scaljeri/di-xxl) what to inject. Comment out the 2 lines below  
+`Pure browser engine` and uncomment the single line below `Pure backend engine`. Thats all, lets build this 
+and play (from the root of the project)
 
     $> lerna run build
     $> lerna run start

@@ -27,10 +27,6 @@ export class EventsGateway {
 
     constructor(@Inject('CHESS_ENGINE') private engineService: ChessEngine,
         private bookService: BookService) {
-        // bookService.lookupRandom('r4rk1/pp2bpp1/2p2n1p/4q3/2b1B3/2N5/PPQ2PPP/R3K2R w KQ - 0 16').then(x => {
-        // console.log(x);
-        //r4rk1/pp2bpp1/2p2n1p/4q3/2b1B3/2N5/PPQ2PPP/R3K2R w KQ - 0 16
-        // })
     }
 
     private isProcessing;
@@ -61,6 +57,7 @@ export class EventsGateway {
         }
 
         console.log('--------- use engine ---------');
+        // Experiment with variable play settings:
         // const moves = parseInt(fen.split(' ')[5]);
         // console.log('moves=' + moves + ' fen=' + fen);
         // if (moves === 1) {

@@ -26,7 +26,7 @@ export class SfRunner implements UCIChessEngine {
                 'run',
                 '--rm',
                 '--interactive',
-                '--cpus=10',
+                '--cpus=1',
                 'jeanluca/stockfish:latest'
             ]
             this.process = spawn('docker', options);

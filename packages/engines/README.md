@@ -1,7 +1,7 @@
 ### Chess engine
-Although I have used only Stockfish for my experiment, I also have Leela Chess Zero (Lc0). Although
-that chess engine is actually stronger than Stockfish I was not able to run it at full strenght
-because I don't have a GPU. It didn't perform very well agains chess.com. 
+For this project I only used Stockfish as my chess engine, but if you like, you can also use Leela Chess Zero (Lc0). Although
+Lc0 is stronger than Stockfish in real life, it requires a GPU to perform well. Unfortunately I don't have that, and Lc0 will 
+play very weak.
 
 First build the project
 
@@ -11,21 +11,27 @@ then run it
 
     $> yarn run:sf
 
-You can also do this from the root of this project with Lerna!
+or
 
-To use Lc0 do
+    $> yarn run:lc0
 
-    $> yarn run:lz0
+### Build docker images
 
-### Prepare images
+    $> docker build -t scaljeri/stockfish:x.x.x -f ./sf/Dockerfile-sf .
 
-    $> docker build -t scaljeri/base:1.0.0 -f ./docker/Dockerfile-base .
+or
+
+    $> docker build -t scaljeri/lc0:x.x.x -f ./lc0/Dockerfile .
+ 
 
 run it like
 
     $> docker run --rm --interactive jeanluca/stockfish:latest
 
-Checkout [sf-runner.ts](./src/shared/sf-runner.ts) to see how its used by my NestJS backend.
+
+Checkout [sf-runner.ts](./src/shared/sf-runner.ts) to see how its used by my NestJS backend. For example, you can increase
+the number of CPUs there. Also, to improve game play even more, you can modify the chess engine settings [here](src/shared/uci-chess-engine.ts).
+
 BTW, the nestJS entrypoint for my frontend to send moves to is located [here](./src/websockets/events/events.gateway.ts)
 
 ## Usage

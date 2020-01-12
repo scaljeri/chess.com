@@ -28,19 +28,12 @@ export class UCIChessEngineService extends EngineBase implements ChessEngine {
         } else {
             this.engine = new SfRunner();
             this.engine.start().then(() => {
-                // Good
-                this.engine.setOption(UCI_OPTIONS.THREADS, 128);    // Just a max value
-                this.engine.setOption(UCI_OPTIONS.PONDER, true);    // Ponder
-                this.engine.setOption(UCI_OPTIONS.MOVE_OVERHEAD, 120); // 350 more draws, 130 wins
-                this.engine.setOption(UCI_OPTIONS.CONTEMPT, 0);     // 
-                this.engine.setOption(UCI_OPTIONS.HASH, 16384);
+                this.engine.setOption(UCI_OPTIONS.THREADS, 128);        // Just a max value
+                this.engine.setOption(UCI_OPTIONS.PONDER, true);        // Ponder
+                this.engine.setOption(UCI_OPTIONS.MOVE_OVERHEAD, 120);  // 350 more draws, 130 wins
+                this.engine.setOption(UCI_OPTIONS.CONTEMPT, 0);         // 
+                this.engine.setOption(UCI_OPTIONS.HASH, 1024);          // Use more if possible
                 this.engine.setOption(UCI_OPTIONS.SLOW_MOVER, 15);      // Beats stockfish 
-
-                // Bad
-                // this.engine.setOption(UCI_OPTIONS.THREADS, 1);    // Just a max value
-                // this.engine.setOption(UCI_OPTIONS.PONDER, false);    // Ponder
-                // this.engine.setOption(UCI_OPTIONS.HASH, 512);
-                // this.engine.setOption(UCI_OPTIONS.SLOW_MOVER, 300);      // Beats stockfish 
             });
         }
 
