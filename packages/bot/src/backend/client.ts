@@ -79,7 +79,7 @@ export class Client implements IClient {
 
         await this.page.type('#username', context.username);
         await this.page.type('#password', context.password);
-        await this.page.click('.form-input-component + .form-button-component');
+			await this.page.click('[type=submit]');
     }
 
     async upload(): Promise<void> {
