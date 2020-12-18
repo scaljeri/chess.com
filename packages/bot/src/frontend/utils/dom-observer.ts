@@ -29,7 +29,12 @@ export class DomObserver implements IDomObserver {
     }
 
     observe(selector: string, eventName: ((el: HTMLElement) => void) | string, config?: MutationObserverInit): IDomObserver {
-        const target = getS(selector);
+				const target = getS(selector);
+				
+				if (!target) {
+					console.log('selector ' + selector + ' not found');
+					return ;
+				}
 
         // creëer een observer instantie
         this.observer = new MutationObserver(mutations => {

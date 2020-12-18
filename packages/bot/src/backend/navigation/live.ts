@@ -8,9 +8,11 @@ export class LiveNavigation implements INavigation {
     @Inject('backend.client') client: IClient;
 
     async go() {
-        await this.client.goto('https://chess.com/play');
-        await this.client.login()
+        // await this.client.goto('https://chess.com/play');
 
-        await this.client.goto('https://www.chess.com/live');
+			await this.client.goto('https://www.chess.com/play/computer');
+      await this.client.login()
+        // await this.client.goto('https://www.chess.com/live');
+        // await this.client.login()
     }
 }

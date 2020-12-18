@@ -34,7 +34,7 @@ export class BrowserChessBoard implements IChessBoard {
     buildGrid() {
         const board = getS(this.settings.BOARD_NAME)!;
         const first = getS(this.settings.GRID_NAME, board)
-        const items = getM(this.settings.GRID_NAME, board)
+				const items = getM(this.settings.GRID_NAME, board)
 
         this.bot = first.innerText === '8' ? Side.White : Side.Black;
         this.opponent = this.bot === Side.White ? Side.Black : Side.White;

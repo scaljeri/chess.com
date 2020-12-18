@@ -75,11 +75,19 @@ export class Client implements IClient {
     }
 
     async login() {
-        const context = DI.get<IContext>('context');
+			await this.page.click('.icon-font-chess.modal-seo-close-icon');
+			await this.page.click('.accept-button.svelte-mpzbuc');
 
-        await this.page.type('#username', context.username);
-        await this.page.type('#password', context.password);
-			await this.page.click('[type=submit]');
+      //   const context = DI.get<IContext>('context');
+
+			// 	await this.page.click('.button.auth.login')
+      //   await this.page.type('#username', context.username);
+      //   await this.page.type('#password', context.password);
+			// 	await this.page.click('[type=submit]#login');
+
+			// await this.page
+			// 	.waitForSelector('.icon-font.close')
+			// 	.then(() => this.page.click('.icon-font.close'));
     }
 
     async upload(): Promise<void> {

@@ -1,6 +1,6 @@
 export const LIVE_DEFAULTS = {
         GAME_STARTED: '.resign-button-component',
-        GRID_NAME: '.coordinates > div',
+        GRID_NAME: '.coordinates > text',
         CHESS_PIECES: '.pieces .piece',
         LEGAL_MOVES: '.legal-move-hint',
         TRANSLATE_RE: 'translate\((\d+)px, (\d+)(?:px|%)\)',
@@ -22,10 +22,10 @@ export const LIVE_DEFAULTS = {
         DRAW_ACCEPT: '.draw-offer-accept',
         ACTION_AREA: '.board-player-bottom .clock-component', // .game-controls-component'
 
-        BOARD_NAME: '#game-board',
-        CLOCK: '#board-layout-player-bottom .clock-component',
-        CLOCK_OPP: '#board-layout-player-top .clock-component',
-        CLOCK_ACTIVE: '.clock-playerTurn',
+        BOARD_NAME: '.board',
+				CLOCK: '.layout-bottom-player .move-time-content',
+				CLOCK_OPP: '.layout-top-player .move-time-content',
+				CLOCK_ACTIVE: ':not(.move-time-inactive)',
         RESIGN_BTN: '.resign-button-label',
 }
 

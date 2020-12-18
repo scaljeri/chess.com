@@ -25,17 +25,18 @@ export class Environment {
 
             // **** BOT CONFIGURATION ****/
             // Pure browser engine
-            // 'chess.engine.browser': 'browser.chess.engine.stockfish',
-            // 'chess.uci': 'browser.chess.uci.browser'
+            'chess.engine.browser': 'browser.chess.engine.stockfish',
+            'chess.uci': 'browser.chess.uci.browser'
 
             // Combi engine
             // 'chess.engine.browser': 'browser.chess.engine.stockfish',
             // 'chess.uci': 'browser.chess.uci.combi',
 
             // Pure backend engine
-            'chess.uci': 'browser.chess.uci.backend'
+            // 'chess.uci': 'browser.chess.uci.backend'
         });
 
-        DI.get<IContext>(`context.${window.location.pathname.match(/live/) ? 'live' : 'computer'}`).prepare(context);
+        DI.get<IContext>(`context.live`).prepare(context);
+        // DI.get<IContext>(`context.${window.location.pathname.match(/live/) ? 'live' : 'computer'}`).prepare(context);
     }
 }

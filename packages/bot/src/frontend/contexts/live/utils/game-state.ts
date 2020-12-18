@@ -51,8 +51,8 @@ export class GameState implements IGameState {
     }
 
     getTimes(): void {
-        const timeBottom = getS(this.settings.CLOCK_BOTTOM);
-        const timeTop = getS(this.settings.CLOCK_TOP);
+        const timeBottom = getS(this.settings.CLOCK);
+        const timeTop = getS(this.settings.CLOCK_OPP);
 
         this.game.timeBlack = convertTimeToMilli((this.game.bot === Side.Black ?  timeBottom : timeTop).innerText);
         this.game.timeWhite = convertTimeToMilli((this.game.bot === Side.White ?  timeBottom : timeTop).innerText);
