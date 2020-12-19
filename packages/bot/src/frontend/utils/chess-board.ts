@@ -43,7 +43,7 @@ export class BrowserChessBoard implements IChessBoard {
         const pbox = board.getBoundingClientRect() as DOMRect;
 
         items.forEach((item: HTMLElement) => {
-            const text = item.innerText;
+            const text = item.innerHTML;
             const box = item.getBoundingClientRect() as DOMRect;
             this.grid[text] = { x: Math.round(box.x - pbox.x), y: Math.round(box.y - pbox.y) };
         });

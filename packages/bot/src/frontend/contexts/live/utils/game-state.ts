@@ -1,4 +1,4 @@
-import { Injectable, Inject } from 'di-xxl';
+import { Injectable, Inject, DI } from 'di-xxl';
 
 import { IGameState } from '../../../interfaces/game-state';
 
@@ -47,7 +47,7 @@ export class GameState implements IGameState {
     }
 
     determineColor(): Side {
-        return getS('.board-layout-bottom .clock-black') ? Side.Black : Side.White;
+			return getS(DI.get('settings').GRID_NAME).innerHTML === '8' ? Side.Black : Side.White;
     }
 
     getTimes(): void {

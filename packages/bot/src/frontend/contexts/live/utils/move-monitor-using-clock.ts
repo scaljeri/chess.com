@@ -74,7 +74,8 @@ export class LiveMoveMonitorClock implements IMonitor {
 
   triggerMove(): void {
     setTimeout(() => {
-      const botTurn = !!getS(this.selector + this.settings.CLOCK_ACTIVE);
+			const botTurn = !!getS(this.selector + this.settings.CLOCK_ACTIVE);
+
       if (botTurn !== this.lastState) {
         this.heartbeat.remove(this.heartbeatId);
         this.lastState = botTurn;

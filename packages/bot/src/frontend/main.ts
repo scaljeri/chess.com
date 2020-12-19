@@ -113,7 +113,7 @@ function listen(): void {
 }
 
 function monitorEndOfGame(): void {
-  const state = getS('.header-title-component');
+	const state = getS(DI.get('settings').END_DIALOG);
   if (state) {
     // Game has ended
     eh.trigger(
@@ -130,11 +130,13 @@ function resize() {
 }
 
 async function doMove(game: Game): Promise<Move> {
-  eh.trigger('bot.move.uci-start', game);
-  const move = await DI.get<IChessBot>('chess.bot').calculateMove(game);
+	eh.trigger('bot.move.uci-start', game);
+	console.log('CALCULATE MOVE BELOW')
+	const move = await DI.get<IChessBot>('chess.bot').calculateMove(game);
   eh.trigger('bot.move.uci-end', { move, game });
 
   if (move) {
+		console.log('MAKE A MOVE BELOW')
     DI.get('game.do-move').move(move);
   }
 

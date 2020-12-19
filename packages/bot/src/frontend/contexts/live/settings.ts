@@ -1,7 +1,7 @@
 export const LIVE_DEFAULTS = {
         GAME_STARTED: '.resign-button-component',
         GRID_NAME: '.coordinates > text',
-        CHESS_PIECES: '.pieces .piece',
+        CHESS_PIECES: '.board .piece',
         LEGAL_MOVES: '.legal-move-hint',
         TRANSLATE_RE: 'translate\((\d+)px, (\d+)(?:px|%)\)',
         MOVES_LIST: '.vertical-move-list-component > div', 
@@ -14,7 +14,7 @@ export const LIVE_DEFAULTS = {
         PLAYER_DETAILS: '.board-player-userTagline',
         CLOCK_BOTTOM: '#main-clock-bottom',
         CLOCK_TOP: '#main-clock-top',
-        END_DIALOG: '.board-dialog-component',
+				END_DIALOG: '.modal-game-over-component',
         END_DIALOG_MSG: '.header-title-component',
         PROMOTE_PIECE: '.promotion-menu [data-type=', 
         DRAW_DIALOG: '.draw-offer-buttons',
