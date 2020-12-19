@@ -18,12 +18,12 @@ export class LiveMover extends BrowserChessPiece {
     move(move: Move): void {
         const piece = this.chessBoard.findPiece(move.from);
         const from = this.chessBoard.findCoordinates(move.from);
-        const to = this.chessBoard.findCoordinates(move.to);
+				const to = this.chessBoard.findCoordinates(move.to);
 
-        const mde = createMouseEvent('mousedown', { clientX: from.x, clientY: from.y });
-        piece.dispatchEvent(mde);
+        const mde = createMouseEvent('pointerdown', { clientX: from.x, clientY: from.y });
+        piece.parentElement.dispatchEvent(mde);
 
-        const mue = createMouseEvent('mouseup', { clientX: to.x, clientY: to.y });
+        const mue = createMouseEvent('pointerup', { clientX: to.x, clientY: to.y });
         document.querySelector(this.settings.BOARD_NAME).dispatchEvent(mue);
 
         if (move.promoteTo) {
