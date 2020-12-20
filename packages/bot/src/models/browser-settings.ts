@@ -3,7 +3,6 @@ export interface IBrowserSettings {
     GRID_NAME: string;
     TOP_INFO: string;
     BOTTOM_INFO: string;
-    PLAYER_DETAILS: string;
     CLOCK_BOTTOM: string;
     CLOCK_ACTIVE: string;
     CLOCK_TOP: string;
@@ -19,5 +18,9 @@ export interface IBrowserSettings {
     BOARD_NAME: string;
     CLOCK?: string;
     CLOCK_OPP?: string;
-    RESIGN_BTN?: string;
+		RESIGN_BTN?: string;
+
+		// new
+		PLAYER_DETAILS: string;
+		PLAYER_CLOCK_INACTIVE: string;
 }

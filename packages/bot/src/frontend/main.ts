@@ -13,6 +13,8 @@ import { IMonitor } from '../models/monitor';
 import { getS } from './utils/find';
 import { IGameState } from './interfaces/game-state';
 import { Heartbeat } from './heartbeat';
+import { IDomObserver } from './interfaces/dom-observer';
+import { IBrowserSettings } from '../models/browser-settings';
 
 declare var window;
 declare var WebAssembly;
@@ -20,6 +22,7 @@ declare var WebAssembly;
 var source = Uint8Array.of(0x0, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00);
 window.postMessage(new WebAssembly.Module(source), '*');
 
+// If window.__ already exists, it means the package was injected again (reload)
 const oldDI: DI = window.__;
 window.__ = new DI();
 
@@ -31,11 +34,11 @@ DI.set({
 
 const eh = DI.get<EventHub>('eh');
 
-// Chess-utils is Reloaded -> fix context
 if (oldDI) {
   console.log('Reload detected...');
 
-  const context = oldDI.get<IContextSettings>('context');
+	const context = oldDI.get<IContextSettings>('context');
+	// The first time the context is set by the backend
   (window.__ as DI).get<Environment>('browser.environment').setup(context);
 
   setTimeout(() => {
@@ -44,7 +47,7 @@ if (oldDI) {
 }
 
 window.addEventListener('resize', resize);
-cleanup();
+// cleanup();
 
 eh.on('reload', () => {
   window.removeEventListener('resize', resize);
@@ -58,15 +61,27 @@ eh.on('reload', () => {
 });
 
 eh.on('connect', () => {
-  DI.get<Heartbeat>('heartbeat').start();
-  setTimeout(() => {
-    listen();
-  });
+	console.log('CONNECT YES', DI.get<IContextSettings>('context'));
+	const settings = DI.get<IBrowserSettings>('settings');
+	DI.get('monitor.move').start();
+	eh.on('move.start', () => {
+		console.log('MOVE START');
+	});
+	eh.on('move.end', () => {
+		console.log('MOVE END');
+	})
+	// DI.get<IDomObserver>('monitor.move').observe(settings.PLAYER_DETAILS, () => {
+		// console.log('CLOCK CHANGED');
+	// }, { subtree: true, childList: true });
+  // DI.get<Heartbeat>('heartbeat').start();
+  // setTimeout(() => {
+  //   listen();
+  // });
 
   DI.get<IDisplay>('display').inject(); // Show mini dashboard
 
-  DI.get('chess.game.statistics');
-  DI.get('chess.bot').start();
+  // DI.get('chess.game.statistics');
+  // DI.get('chess.bot').start();
 });
 
 eh.on('game.over', () => {
@@ -86,31 +101,31 @@ eh.on('game.new', game => {
   DI.get('heartbeat').add(monitorEndOfGame);
 });
 
-function listen(): void {
-  console.log('start listening');
-  DI.get<IMonitor>('monitor.move.start').start((game: Game, isTurn: boolean) => {
-    if (isTurn) {
-      eh.trigger('bot.move.start', game);
+// function listen(): void {
+//   console.log('start listening');
+//   DI.get<IMonitor>('monitor.move.start').start((game: Game, isTurn: boolean) => {
+//     if (isTurn) {
+//       eh.trigger('bot.move.start', game);
 
-      setTimeout(async () => {
-        const move = await doMove(game);
-        eh.trigger('bot.move.end', { move, game });
-      });
-    } else {
-      setTimeout(() => {
-        eh.trigger('bot.move.done', game)
-      });
-    }
-  });
-
-  DI.get<IMonitor>('monitor.move.start').start((game: Game, isTurn: boolean) => {
-    if (isTurn) {
-      eh.trigger('opponent.move.start', game);
-    } else {
-      eh.trigger('opponent.move.end', game);
-    }
-  }, DI.get('settings').CLOCK_OPP);
-}
+//       setTimeout(async () => {
+//         const move = await doMove(game);
+//         eh.trigger('bot.move.end', { move, game });
+//       });
+//     } else {
+//       setTimeout(() => {
+//         eh.trigger('bot.move.done', game)
+//       });
+//     }
+//   });
+// 
+//   DI.get<IMonitor>('monitor.move.start').start((game: Game, isTurn: boolean) => {
+//     if (isTurn) {
+//       eh.trigger('opponent.move.start', game);
+//     } else {
+//       eh.trigger('opponent.move.end', game);
+//     }
+//   }, DI.get('settings').CLOCK_OPP);
+// }
 
 function monitorEndOfGame(): void {
 	const state = getS(DI.get('settings').END_DIALOG);

@@ -17,7 +17,7 @@ export class GameHistory {
         let gameOver = false;
         let winner: Side;
 
-        const turns = Array.prototype.slice.call(getM(`${this.settings.MOVES_LIST} ${this.settings.MOVE_TURN}`), startPos);
+        const turns = Array.prototype.slice.call(getM(`${this.settings.MOVES_LIST}`), startPos);
 
         turns.forEach((turn, i) => {
             const items = turn.querySelectorAll(this.settings.MOVE_ITEMS);

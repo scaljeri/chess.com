@@ -72,11 +72,15 @@ export class Client implements IClient {
 
     async goto(url: string): Promise<void> {
         await this.page.goto(url, { waitUntil: 'networkidle2' });
-    }
+		}
+		
+		async click(selector: string): Promise<void> {
+			return this.page.click(selector);
+		}
 
     async login() {
-			await this.page.click('.icon-font-chess.modal-seo-close-icon');
-			await this.page.click('.accept-button.svelte-mpzbuc');
+			// await this.page.click('.icon-font-chess.modal-seo-close-icon');
+			// await this.page.click('.accept-button.svelte-mpzbuc');
 
       //   const context = DI.get<IContext>('context');
 
@@ -91,9 +95,11 @@ export class Client implements IClient {
     }
 
     async upload(): Promise<void> {
-        const c = DI.get<Context>('context');
+        const c = DI.get<IContext>('context');
         const serverPort = c.serverPort;
         const socketPort = c.socketPort;
+				const contextName = c.contextName;
+		
 
         console.log('Inject script');
         return this.page.evaluate((context: IContextSettings) => {
@@ -119,7 +125,7 @@ export class Client implements IClient {
             }
 
             waitUntilAvailable();
-        }, { serverPort, socketPort } as puppeteer.Serializable);
+        }, { serverPort, socketPort, contextName } as puppeteer.Serializable);
 
     }
 

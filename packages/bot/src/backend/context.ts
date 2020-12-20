@@ -28,8 +28,8 @@ export class Context implements IContext {
         return parseInt(process.env.SERVER_PORT, 10);
     }
 
-    get isPlayLive(): boolean {
-        return process.env.GAME_TYPE.toLowerCase() === 'computer' ? false : true;
+    get contextName(): string {
+				return process.env.GAME_TYPE.toLowerCase();
     }
 
     get socketPort(): number {

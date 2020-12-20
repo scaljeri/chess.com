@@ -3,16 +3,14 @@ import { IContext } from './interfaces/context';
 
 @Injectable('backend.environment')
 export class Environment {
-    private isLive: boolean;
+    private contextName: string;
 
     @Inject('context')
     setContext(context: IContext) {
-        this.isLive = context.isPlayLive;
+        this.contextName = context.contextName || 'computer';
     }
 
     setup(): void {
-        DI.setProjection({
-            'navigation': `backend.navigation.${this.isLive ? 'live' : 'computer'}`
-        }); 
+			DI.get(`backend.${this.contextName}.setup`).init();
     }
 }

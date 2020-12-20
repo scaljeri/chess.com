@@ -14,7 +14,7 @@
     "start:bot": "yarn start",
     "watch:frontend": "nodemon --watch './src/frontend/**/*' --ext ts --exec \"rm -rf ./dist && yarn build:frontend\"",
     "live": "nodemon -e ts --ignore ./src/backend/main-di.ts --watch './src/backend/**/*.ts' --exec yarn run:live",
-    "live:computer": "nodemon -e ts  --watch './src/backend/**/*.ts' --exec yarn build:computer",
+    "live:computer": "nodemon -e ts  --watch './src/backend/**/*.ts' --exec yarn build:backend",
     "run:live": "di -d -c ./src/backend/main.ts -- -g komodo",
     "run:computer": "di -d -c ./src/main.ts -- -g computer"
   },

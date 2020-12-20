@@ -34,9 +34,8 @@ export class Environment {
 
             // Pure backend engine
             // 'chess.uci': 'browser.chess.uci.backend'
-        });
+				});
 
-        DI.get<IContext>(`context.live`).prepare(context);
-        // DI.get<IContext>(`context.${window.location.pathname.match(/live/) ? 'live' : 'computer'}`).prepare(context);
+        DI.get<IContext>(`context.${context.contextName}`).prepare(context);
     }
 }

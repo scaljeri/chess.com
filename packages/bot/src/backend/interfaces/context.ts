@@ -1,6 +1,6 @@
 export interface IContext {
     serverPort: number;
-    isPlayLive: boolean;
+    contextName: string;
     socketPort: number;
     username: string;
     password: string;

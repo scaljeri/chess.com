@@ -8,6 +8,7 @@ import { ApiServer } from '../api/server';
 import { INavigation } from './interfaces/navigation';
 import { IEnvironment } from './interfaces/environment';
 import { Environment } from './environment';
+import { SetupComputer } from './context/computer/setup';
 
 process.on('SIGTERM', () => {
     console.info('SIGTERM signal received.');
