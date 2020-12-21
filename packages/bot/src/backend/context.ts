@@ -42,5 +42,9 @@ export class Context implements IContext {
 
     get password(): string {
         return process.env.PASSWORD;
-    }
+		}
+		
+		get duration(): string {
+			return process.env.DURATION;
+		}
 }

@@ -4,6 +4,12 @@ import { Chess } from 'chess.js';
 import { IBrowserSettings } from '../../models/browser-settings';
 import { getM } from './find';
 
+enum PIECE_MAP { 
+	knight = 'N',
+	queen = 'Q',
+	rook = 'R',
+	bishop = 'B'
+}
 @Injectable({ name: 'browser.game-history', singleton: true })
 export class GameHistory {
     @Inject('settings') settings: IBrowserSettings;
@@ -20,9 +26,9 @@ export class GameHistory {
         const turns = Array.prototype.slice.call(getM(`${this.settings.MOVES_LIST}`), startPos);
 
         turns.forEach((turn, i) => {
-            const items = turn.querySelectorAll(this.settings.MOVE_ITEMS);
-            const moveW = (items[0] as HTMLElement).innerText;
-            const moveB = items[1] ? (items[1] as HTMLElement).innerText : null;
+            const items = turn.querySelectorAll(this.settings.MOVES_LIST_TURN);
+            const moveW = this.determineMove((items[0] as HTMLElement)); // .innerText;
+						const moveB = items[1] ? this.determineMove(items[1] as HTMLElement)  : null;
 
             if (moveW.match(/[a-zA-Z]/)) {
                 if (i === 0 && rest === 0 || i > 0) {
@@ -60,7 +66,18 @@ export class GameHistory {
             gameOver,
             winner
         });
-    }
+		}
+		
+		determineMove(el: HTMLElement): string {
+			const icon = el.querySelector('span');
+			let pieceChar = '';
+
+			if (icon) {
+				pieceChar = PIECE_MAP[icon.className.match(/\s([^-]+)[^ ]+$/)[1]];
+			}
+
+			return pieceChar + el.innerText;
+		}
 
     isDraw(move: string): boolean {
         return move === '1/2-1/2';

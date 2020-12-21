@@ -6,9 +6,7 @@ export interface IBrowserSettings {
     CLOCK_BOTTOM: string;
     CLOCK_ACTIVE: string;
     CLOCK_TOP: string;
-    MOVES_LIST: string;
     MOVE_TURN: string;
-    MOVE_ITEMS: string;
     PROMOTE_PIECE: string;
     DRAW_DIALOG?: string;
     DRAW_DECLINE?: string;
@@ -23,4 +21,6 @@ export interface IBrowserSettings {
 		// new
 		PLAYER_DETAILS: string;
 		PLAYER_CLOCK_INACTIVE: string;
+    MOVES_LIST: string;
+    MOVES_LIST_TURN: string;
 }

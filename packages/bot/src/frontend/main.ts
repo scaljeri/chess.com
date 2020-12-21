@@ -61,17 +61,20 @@ eh.on('reload', () => {
 });
 
 eh.on('connect', () => {
-	console.log('CONNECT YES', DI.get<IContextSettings>('context'));
-	const settings = DI.get<IBrowserSettings>('settings');
+	// console.log('CONNECT YES', DI.get<IContextSettings>('context'));
+	// const settings = DI.get<IBrowserSettings>('settings');
 	DI.get('monitor.move').start();
+
 	eh.on('game.start', () => {
 		console.log('GAME START');
+		// TODO: Determine grid
 	});
 	eh.on('move.start', () => {
 		console.log('MOVE START');
 		setTimeout(() => {
 			const game = DI.get('game.history').create();
 			console.log("GAME", game);
+			doMove(game);
 		})
 	});
 	eh.on('move.end', () => {
@@ -155,6 +158,7 @@ async function doMove(game: Game): Promise<Move> {
 	eh.trigger('bot.move.uci-start', game);
 	console.log('CALCULATE MOVE BELOW')
 	const move = await DI.get<IChessBot>('chess.bot').calculateMove(game);
+	console.log('Calculated move: ', move);
 	eh.trigger('bot.move.uci-end', { move, game });
 
 	if (move) {

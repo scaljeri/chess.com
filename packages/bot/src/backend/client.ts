@@ -92,7 +92,11 @@ export class Client implements IClient {
 			// await this.page
 			// 	.waitForSelector('.icon-font.close')
 			// 	.then(() => this.page.click('.icon-font.close'));
-    }
+		}
+		
+		async select(selector: string, value: string): Promise<void> {
+			return this.page.select(selector, value);
+		}
 
     async upload(): Promise<void> {
         const c = DI.get<IContext>('context');
