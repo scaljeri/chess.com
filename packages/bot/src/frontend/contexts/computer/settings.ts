@@ -4,7 +4,6 @@ export const COMPUTER_DEFAULTS = {
         CHESS_PIECES: '.board .piece',
         LEGAL_MOVES: '.legal-move-hint',
         TRANSLATE_RE: 'translate\((\d+)px, (\d+)(?:px|%)\)',
-        MOVES_LIST: 'vertical-move-list-component > div', 
         MOVE_TURN: '.node', // TODO: not used
 				MOVE_ITEMS: '.node',
         SETTINGS: '.subcontrols',
@@ -30,7 +29,8 @@ export const COMPUTER_DEFAULTS = {
 				
 				// new ---
 				PLAYER_DETAILS: '.layout-bottom-player', // Name + clock
-				PLAYER_CLOCK_INACTIVE: '.move-time-inactive'
+				PLAYER_CLOCK_INACTIVE: '.move-time-inactive',
+        MOVES_LIST: 'vertical-move-list > div', 
 }
 
 /*

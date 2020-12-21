@@ -9,11 +9,12 @@ import { IBrowserSettings } from '../../../../models/browser-settings';
 import { getS } from '../../../utils/find';
 import { IMonitor } from '../../../../models/monitor';
 import { Heartbeat } from '../../../heartbeat';
+import { EVENT_TYPES } from '../../../event-types';
 
 @Injectable({ name: 'monitor.live.move-using-clock' })
 export class ComputerMoveMonitorClock implements IMonitor {
 	private gameMoveObserver: IDomObserver;
-	private clockState = true;
+	private clockState: boolean | null = null;
 
   @Inject('eh') private eh: EventHub;
   @Inject('settings') settings: IBrowserSettings;
@@ -26,12 +27,14 @@ export class ComputerMoveMonitorClock implements IMonitor {
 		this.gameMoveObserver = DI.get<IDomObserver>('browser.dom.observer').observe(this.settings.PLAYER_DETAILS, () => {
 			const clockState =  !!el.querySelector(this.settings.PLAYER_CLOCK_INACTIVE);
 
-			console.log('move check', this.clockState, clockState);
-			if (clockState !== this.clockState) { // changed
+			if (clockState !== this.clockState) { // something happend on the board, our clock html changed
+				if (this.clockState === null) {
+					this.eh.trigger(EVENT_TYPES.GAME_START);
+				}
 				if (clockState) {
-					this.eh.trigger('move.end');
+					this.eh.trigger(EVENT_TYPES.MOVE_END);
 				} else {
-					this.eh.trigger('move.start');
+					this.eh.trigger(EVENT_TYPES.MOVE_START);
 					cb();
 				}
 				this.clockState = clockState;

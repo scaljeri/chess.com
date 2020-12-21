@@ -27,78 +27,85 @@ const oldDI: DI = window.__;
 window.__ = new DI();
 
 DI.set({
-  name: 'eh',
-  ref: EventHub,
-  singleton: true,
+	name: 'eh',
+	ref: EventHub,
+	singleton: true,
 });
 
 const eh = DI.get<EventHub>('eh');
 
 if (oldDI) {
-  console.log('Reload detected...');
+	console.log('Reload detected...');
 
 	const context = oldDI.get<IContextSettings>('context');
 	// The first time the context is set by the backend
-  (window.__ as DI).get<Environment>('browser.environment').setup(context);
+	(window.__ as DI).get<Environment>('browser.environment').setup(context);
 
-  setTimeout(() => {
-    eh.trigger('connect');
-  });
+	setTimeout(() => {
+		eh.trigger('connect');
+	});
 }
 
 window.addEventListener('resize', resize);
 // cleanup();
 
 eh.on('reload', () => {
-  window.removeEventListener('resize', resize);
+	window.removeEventListener('resize', resize);
 
-  const serverPort = DI.get<IContextSettings>('context').serverPort;
-  DI.get('shutdown').now();
-  eh.reset();
+	const serverPort = DI.get<IContextSettings>('context').serverPort;
+	DI.get('shutdown').now();
+	eh.reset();
 
-  DI.get<IChessBot>('chess.bot').stop(); // Make sure pondering stops
-  loadScript(`http://localhost:${serverPort}/files/browser/chess-utils`, '__chess-utils');
+	DI.get<IChessBot>('chess.bot').stop(); // Make sure pondering stops
+	loadScript(`http://localhost:${serverPort}/files/browser/chess-utils`, '__chess-utils');
 });
 
 eh.on('connect', () => {
 	console.log('CONNECT YES', DI.get<IContextSettings>('context'));
 	const settings = DI.get<IBrowserSettings>('settings');
 	DI.get('monitor.move').start();
+	eh.on('game.start', () => {
+		console.log('GAME START');
+	});
 	eh.on('move.start', () => {
 		console.log('MOVE START');
+		setTimeout(() => {
+			const game = DI.get('game.history').create();
+			console.log("GAME", game);
+		})
 	});
 	eh.on('move.end', () => {
 		console.log('MOVE END');
 	})
 	// DI.get<IDomObserver>('monitor.move').observe(settings.PLAYER_DETAILS, () => {
-		// console.log('CLOCK CHANGED');
+	// console.log('CLOCK CHANGED');
 	// }, { subtree: true, childList: true });
-  // DI.get<Heartbeat>('heartbeat').start();
-  // setTimeout(() => {
-  //   listen();
-  // });
+	// DI.get<Heartbeat>('heartbeat').start();
+	// setTimeout(() => {
+	//   listen();
+	// });
 
-  DI.get<IDisplay>('display').inject(); // Show mini dashboard
+	DI.get<IDisplay>('display').inject(); // Show mini dashboard
 
-  // DI.get('chess.game.statistics');
-  // DI.get('chess.bot').start();
+	// DI.get('chess.game.statistics');
+	// DI.get('chess.bot').start();
 });
 
 eh.on('game.over', () => {
-  console.log('game over!!');
-  DI.get<IChessBot>('chess.bot').stop();
-  DI.get('heartbeat').remove(monitorEndOfGame);
-  // gameStartMonitor.resume();
+	console.log('game over!!');
+	DI.get<IChessBot>('chess.bot').stop();
+	DI.get('heartbeat').remove(monitorEndOfGame);
+	// gameStartMonitor.resume();
 });
 
 eh.on('disconnect', () => {
-  // TODO (reload)
+	// TODO (reload)
 });
 
 eh.on('game.new', game => {
-  console.log('NEW GAME!!');
-  DI.get<IChessBoard>('chessboard').reset();
-  DI.get('heartbeat').add(monitorEndOfGame);
+	console.log('NEW GAME!!');
+	DI.get<IChessBoard>('chessboard').reset();
+	DI.get('heartbeat').add(monitorEndOfGame);
 });
 
 // function listen(): void {
@@ -129,31 +136,31 @@ eh.on('game.new', game => {
 
 function monitorEndOfGame(): void {
 	const state = getS(DI.get('settings').END_DIALOG);
-  if (state) {
-    // Game has ended
-    eh.trigger(
-      'game.over',
-      DI.get<IGameState>('game.state')
-        .update()
-        .get(),
-    );
-  }
+	if (state) {
+		// Game has ended
+		eh.trigger(
+			'game.over',
+			DI.get<IGameState>('game.state')
+				.update()
+				.get(),
+		);
+	}
 }
 function resize() {
-  DI.get<IChessBoard>('chessboard').reset();
-  eh.trigger('browser.resize');
+	DI.get<IChessBoard>('chessboard').reset();
+	eh.trigger('browser.resize');
 }
 
 async function doMove(game: Game): Promise<Move> {
 	eh.trigger('bot.move.uci-start', game);
 	console.log('CALCULATE MOVE BELOW')
 	const move = await DI.get<IChessBot>('chess.bot').calculateMove(game);
-  eh.trigger('bot.move.uci-end', { move, game });
+	eh.trigger('bot.move.uci-end', { move, game });
 
-  if (move) {
+	if (move) {
 		console.log('MAKE A MOVE BELOW')
-    DI.get('game.do-move').move(move);
-  }
+		DI.get('game.do-move').move(move);
+	}
 
-  return move;
+	return move;
 }

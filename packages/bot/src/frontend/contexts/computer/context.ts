@@ -23,6 +23,6 @@ export class ContextLive implements IContext {
             'chess.game.statistics': 'browser.game.statistics',
          });
 
-         DI.get('chess.game.statistics'); // Activate statistics
+        //  DI.get('chess.game.statistics'); // Activate statistics
     }
 }

@@ -17,7 +17,7 @@ export class Environment {
             'dom': 'browser.dom',
             'chessboard': 'browser.utils.chessboard',
             'game-play': 'browser.game-play',
-            'chess.game.history': 'browser.game-history',
+            'game.history': 'browser.game-history',
             'dom.observer': 'browser.dom.observer',
             'dom.observers.stop': 'browser.dom.stop-observers',
             'chess.bot': 'chess.bot',
