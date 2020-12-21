@@ -75,7 +75,7 @@ eh.on('connect', () => {
 			const game = DI.get('game.history').create();
 			console.log("GAME", game);
 			doMove(game);
-		})
+		}, 200);
 	});
 	eh.on('move.end', () => {
 		console.log('MOVE END');
@@ -156,7 +156,7 @@ function resize() {
 
 async function doMove(game: Game): Promise<Move> {
 	eh.trigger('bot.move.uci-start', game);
-	console.log('CALCULATE MOVE BELOW')
+	console.log('CALCULATE MOVE BELOW', game)
 	const move = await DI.get<IChessBot>('chess.bot').calculateMove(game);
 	console.log('Calculated move: ', move);
 	eh.trigger('bot.move.uci-end', { move, game });
