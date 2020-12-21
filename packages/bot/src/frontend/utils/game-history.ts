@@ -8,12 +8,35 @@ enum PIECE_MAP {
 	knight = 'N',
 	queen = 'Q',
 	rook = 'R',
-	bishop = 'B'
+	bishop = 'B',
+	king = 'K'
 }
 @Injectable({ name: 'browser.game-history', singleton: true })
 export class GameHistory {
     @Inject('settings') settings: IBrowserSettings;
-    @Inject('utils') utils;
+		@Inject('utils') utils;
+		
+    createAsync(game: Game = { moves: [] }, config: { lastMove?: Side } = {}, resolve?: (game: Game) => void): Promise<Game> {
+			if (resolve) {
+				const g = this.create(game);
+
+				if (!config.lastMove || // its always ok
+					g.moves.length === 0 && config.lastMove === Side.Black || // first move
+					g.moves[g.moves.length - 1].color === config.lastMove) {	// last move equals expected lastMove
+					resolve(g);
+				} else {
+					setTimeout(() => {
+						this.createAsync(game, config, resolve);
+					}, 5);
+				}
+			} else {
+				return new Promise(resolve => {
+					setTimeout(() => {
+						this.createAsync(game, config, resolve);
+					});
+				});
+			}
+		}
 
     create(game: Game = { moves: [] }): Game {
         const chess = new Chess(game.fen);

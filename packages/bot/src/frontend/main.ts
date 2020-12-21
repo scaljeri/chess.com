@@ -64,18 +64,17 @@ eh.on('connect', () => {
 	// console.log('CONNECT YES', DI.get<IContextSettings>('context'));
 	// const settings = DI.get<IBrowserSettings>('settings');
 	DI.get('monitor.move').start();
+	const chessBoard = DI.get<IChessBoard>('chessboard');
 
 	eh.on('game.start', () => {
 		console.log('GAME START');
 		// TODO: Determine grid
 	});
-	eh.on('move.start', () => {
+	eh.on('move.start', async () => {
 		console.log('MOVE START');
-		setTimeout(() => {
-			const game = DI.get('game.history').create();
-			console.log("GAME", game);
-			doMove(game);
-		}, 200);
+		const game = await DI.get('game.history').createAsync(undefined, { lastMove: chessBoard.opponent });
+		console.log("GAME", game);
+		doMove(game);
 	});
 	eh.on('move.end', () => {
 		console.log('MOVE END');
