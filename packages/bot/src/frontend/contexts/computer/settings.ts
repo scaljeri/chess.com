@@ -11,9 +11,7 @@ export const COMPUTER_DEFAULTS = {
 	BOTTOM_INFO: '.board-player-bottom',
 	// PLAYER_DETAILS: '.board-player-userTagline',
 
-	END_DIALOG: '.modal-game-over-component',
 	END_DIALOG_MSG: '.header-title-component',
-	PROMOTE_PIECE: '.promotion-menu [data-type=',
 	DRAW_DIALOG: '.draw-offer-buttons',
 	DRAW_DECLINE: '.draw-offer-decline',
 	DRAW_ACCEPT: '.draw-offer-accept',
@@ -32,6 +30,8 @@ export const COMPUTER_DEFAULTS = {
 	MOVES_LIST: 'vertical-move-list > div',
 	MOVES_LIST_TURN: '.node',
 	CLOCK_TIMELEFT: '.move-time-content', // Need PLAYER_DETAILS and OPP_DETAILS
+	PROMOTE_PIECE: '.promotion-window.top',
+	END_DIALOG: '.modal-game-over-component',
 }
 
 /*

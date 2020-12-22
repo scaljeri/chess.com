@@ -1,13 +1,14 @@
 import { IBrowserSettings } from '../../models/browser-settings';
 import { createMouseEvent } from './events';
 import { IChessBoard } from '../../models/chessboard';
+import { Side } from '@scaljeri/chess-shared';
 
 export abstract class BrowserChessPiece {
     abstract chessBoard: IChessBoard;
     abstract settings: IBrowserSettings;
 
-    promote(promoteTo: 'q' | 'n' | 'r' | 'b') {
-        const selector = `${this.settings.PROMOTE_PIECE}${promoteTo}]`;
+    promote(promoteTo: 'q' | 'n' | 'r' | 'b', side: Side) {
+			const selector = `${this.settings.PROMOTE_PIECE} .${side + promoteTo}`;
 
         if (!this.doPromotion(selector)) {
             const iid = setInterval(() => {

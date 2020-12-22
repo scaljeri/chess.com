@@ -8,21 +8,28 @@ import { IBrowserSettings } from '../../../../models/browser-settings';
 
 import { getS } from '../../../utils/find';
 import { IMonitor } from '../../../../models/monitor';
-import { Heartbeat } from '../../../heartbeat';
 import { EVENT_TYPES } from '../../../event-types';
 
 @Injectable({ name: 'monitor.live.move-using-clock' })
 export class ComputerMoveMonitorClock implements IMonitor {
 	private gameMoveObserver: IDomObserver;
 	private clockState: boolean | null = null;
+	private gameEndCb: () => void;
 
   @Inject('eh') private eh: EventHub;
   @Inject('settings') settings: IBrowserSettings;
-  @Inject('heartbeat') heartbeat: Heartbeat;
 
   cleanup = () => {};
 
   start(cb: () => void = () => {}): IMonitor {
+		if (!this.gameEndCb) {
+			this.gameEndCb = () => {
+				this.clockState = null;
+			};
+
+			this.eh.on(EVENT_TYPES.GAME_END, this.gameEndCb);
+		}
+
 		const el = getS(this.settings.PLAYER_DETAILS);
 		this.gameMoveObserver = DI.get<IDomObserver>('browser.dom.observer').observe(this.settings.PLAYER_DETAILS, () => {
 			const clockState =  !!el.querySelector(this.settings.PLAYER_CLOCK_INACTIVE);
@@ -45,6 +52,7 @@ export class ComputerMoveMonitorClock implements IMonitor {
   }
 
   stop(): void {
-    this.gameMoveObserver && this.gameMoveObserver.disconnect();
+		this.gameMoveObserver && this.gameMoveObserver.disconnect();
+		this.gameEndCb && this.eh.off(EVENT_TYPES.GAME_END, this.gameEndCb);
   }
 }

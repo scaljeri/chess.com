@@ -15,6 +15,12 @@ export class ComputerNavigation implements INavigationOpponent {
 		await this.client.click('.bot-selection-scroll > div:last-child');
 		await this.client.click('.selection-menu-footer');
 		await this.client.click('.mode-selection-mode > div:last-child');
+
+		await this.client.execute((strenght) => {
+			const input = document.querySelector('.slider-component input') as HTMLInputElement;
+			input.value = strenght || '20';
+			input.dispatchEvent(new Event('input'));
+		}, this.context.opponentStrength );
 		await this.client.select('.ui_v5-select-component.mode-selection-custom-select', this.context.duration)
 	}
 }

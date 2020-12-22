@@ -6,7 +6,7 @@ export class Shutdown {
     @Inject('eh') eh: EventHub;
 
     constructor() {
-        setTimeout(() => {
+        setTimeout(() => { // timeout needed so DI can do its magic first
             this.eh.on('destroy', () => this.now())
         })
     }

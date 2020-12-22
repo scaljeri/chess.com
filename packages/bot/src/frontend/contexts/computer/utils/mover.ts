@@ -27,7 +27,7 @@ export class LiveMover extends BrowserChessPiece {
         document.querySelector(this.settings.BOARD_NAME).dispatchEvent(mue);
 
         if (move.promoteTo) {
-            this.promote(move.promoteTo);
+            this.promote(move.promoteTo, move.color);
         }
     }
 }

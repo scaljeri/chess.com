@@ -47,4 +47,8 @@ export class Context implements IContext {
 		get duration(): string {
 			return process.env.DURATION;
 		}
+
+	get opponentStrength(): string {
+		return process.env.OPPONENT_STRENGTH;
+	}
 }

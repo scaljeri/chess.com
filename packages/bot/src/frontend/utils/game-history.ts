@@ -16,6 +16,10 @@ export class GameHistory {
     @Inject('settings') settings: IBrowserSettings;
 		@Inject('utils') utils;
 		
+		/* Sometimes at `move.start` the moves list is not yet updated, so we have to wait and check it again.
+			 This function does that, it checks if the `config.lastMove` equals the color of the last move. If
+			 not, the waits 5ms and tries again by calling itself with the `resolve` callback.
+		*/
     createAsync(game: Game = { moves: [] }, config: { lastMove?: Side } = {}, resolve?: (game: Game) => void): Promise<Game> {
 			if (resolve) {
 				const g = this.create(game);

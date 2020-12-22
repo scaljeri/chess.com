@@ -3,6 +3,7 @@ export interface IContext {
     contextName: string;
 		socketPort: number;
 		duration: string;
+		opponentStrength: string;
     username: string;
     password: string;
 }

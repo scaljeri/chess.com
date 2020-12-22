@@ -22,5 +22,6 @@ export interface IBrowserSettings {
 		PLAYER_DETAILS: string;
 		PLAYER_CLOCK_INACTIVE: string;
     MOVES_LIST: string;
-    MOVES_LIST_TURN: string;
+		MOVES_LIST_TURN: string;
+		END_DIALOG: string;
 }
