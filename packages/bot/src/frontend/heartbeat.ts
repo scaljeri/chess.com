@@ -31,19 +31,27 @@ export class Heartbeat {
         delete this.actions[id];
 
         return action;
-    }
+		}
+		
+		reset(): void {
+			this.stop();
+			this.actions.length = 0;
+		}
 
-    start(action?: () => void): void {
-        this.stop();
+    start(action?: () => void): number | null {
+				this.stop();
+				let id = null;
 
         if (action) {
-            this.add(action);
+            id = this.add(action);
         }
 
 
         this.id = window.setInterval(() => {
             this.actions.forEach(action => action());
-        }, this.delay);
+				}, this.delay);
+				
+				return id;
     }
 
     stop(): void {

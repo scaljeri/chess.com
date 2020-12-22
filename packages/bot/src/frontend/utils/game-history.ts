@@ -96,14 +96,27 @@ export class GameHistory {
 		}
 		
 		determineMove(el: HTMLElement): string {
-			const icon = el.querySelector('span');
-			let pieceChar = '';
+			const nodes = el.childNodes;
 
-			if (icon) {
-				pieceChar = PIECE_MAP[icon.className.match(/\s([^-]+)[^ ]+$/)[1]];
-			}
+			let move = '';
+			nodes.forEach(node => {
+				if (node.nodeType === Node.TEXT_NODE) { 
+					move += node.textContent;
+				} else {
+					move += (node as HTMLElement).getAttribute('data-figurine');
+				}
+			});
 
-			return pieceChar + el.innerText;
+			return move;
+
+			// const icon = el.querySelector('span');
+			// let pieceChar = '';
+
+			// if (icon) {
+			// 	pieceChar = PIECE_MAP[icon.className.match(/\s([^-]+)[^ ]+$/)[1]];
+			// }
+
+			// return pieceChar + el.innerText;
 		}
 
     isDraw(move: string): boolean {

@@ -3,6 +3,7 @@ import { Injectable, Inject } from 'di-xxl';
 import { HTML } from './display/html';
 import { IDisplay } from './interfaces/display';
 import { EventHub } from 'eventhub-xxl';
+import { EVENT_TYPES } from './event-types';
 
 declare var ko;
 
@@ -32,7 +33,7 @@ export class BrowserDisplay implements IDisplay {
     @Inject('eh') eh: EventHub;
 
     inject() {
-        this.eh.on('bot.move.end', ({move}: {move: Move}) => {
+			this.eh.on(EVENT_TYPES.UCI_MOVE_END, ({move}: {move: Move}) => {
             if (move.score) {
                 update('scoreType', move.score.type);
                 update('scoreValue', move.score.value);
@@ -51,8 +52,8 @@ export class BrowserDisplay implements IDisplay {
             }
         });
 
-        this.eh.on('game.new', (game) => {
-            update('color', game.bot === Side.w ? 'White' : 'Black');
+        this.eh.on(EVENT_TYPES.GAME_START, (game) => {
+						update('color', game.bot === Side.w ? 'White' : 'Black');
 
             // Reset old values
             this.bookMoves = 0;
@@ -67,7 +68,7 @@ export class BrowserDisplay implements IDisplay {
             this.element.classList.add('active');
         });
 
-        this.eh.on('game.over', (game) => {
+        this.eh.on(EVENT_TYPES.GAME_END, (game) => {
             // update('botState', 'inactive');
             this.element.classList.remove('active');
             this.element.classList.add('inactive');

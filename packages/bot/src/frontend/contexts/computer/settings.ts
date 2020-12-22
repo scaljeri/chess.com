@@ -1,6 +1,5 @@
 export const COMPUTER_DEFAULTS = {
 	GAME_STARTED: '.resign-button-component',
-	GRID_NAME: '.coordinates > text',
 	CHESS_PIECES: '.board .piece',
 	LEGAL_MOVES: '.legal-move-hint',
 	TRANSLATE_RE: 'translate\((\d+)px, (\d+)(?:px|%)\)',
@@ -24,6 +23,7 @@ export const COMPUTER_DEFAULTS = {
 	RESIGN_BTN: '.resign-button-label',
 
 	// new ---
+	GRID_NAME: '.coordinates > text',
 	PLAYER_DETAILS: '.layout-bottom-player', // Name + clock
 	OPP_DETAILS: '.layout-top-player',  // Name + clock opponent
 	PLAYER_CLOCK_INACTIVE: '.move-time-inactive',
@@ -32,6 +32,7 @@ export const COMPUTER_DEFAULTS = {
 	CLOCK_TIMELEFT: '.move-time-content', // Need PLAYER_DETAILS and OPP_DETAILS
 	PROMOTE_PIECE: '.promotion-window.top',
 	END_DIALOG: '.modal-game-over-component',
+	GAME_OVER: '.game-over-modal .modal-game-over-header-component'
 }
 
 /*

@@ -15,7 +15,7 @@ export class ContextLive implements IContext {
          DI.setProjection({
             //  'chess.game.monitor': 'browser.context.live.utils.monitor',
             //  'chess.game.monitor': 'browser.context.live.utils.board-monitor',
-            'monitor.game-start': 'browser.context.live.utils.game-start-monitor',
+            // 'monitor.game-start': 'browser.context.live.utils.game-start-monitor',
 					 	'monitor.move': 'monitor.live.move-using-clock',
 
             'game.state': 'browser.context.live.utils.game-state',

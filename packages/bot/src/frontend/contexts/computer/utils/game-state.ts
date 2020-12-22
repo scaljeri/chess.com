@@ -12,42 +12,29 @@ import { EventHub } from 'eventhub-xxl';
 
 @Injectable({ name: 'browser.context.live.utils.game-state', singleton: true })
 export class GameState implements IGameState {
-    @Inject('chess.game.history') protected history: GameHistory;
+    @Inject('game.history') protected history: GameHistory;
     @Inject('eh') protected eh: EventHub;
     @Inject('settings') protected settings: IBrowserSettings;
 
     protected game: Game;
-    private oldGame: Game;
     
-    reset(): void {
-        this.game = null;
+    reset(): IGameState {
+				this.game = undefined;
+				
+				return this;
     }
 
     update(): IGameState {
-        if (!this.game) {
-            this.game = {
-                moves: [],
-                bot: this.determineColor()
-            };
-            this.game.opponent = switchSide(this.game.bot);
-        }
-
-        this.game = this.history.create(this.game);
+				this.game = this.history.create(this.game);
+				this.game.bot = this.game.bot || this.determineColor();
+				this.game.opponent = this.game.opponent || switchSide(this.game.bot);
         this.getTimes();
 
         return this;
     }
 
-    initialize(): void {
-        this.game = {
-            moves: [],
-            bot: this.determineColor()
-        };
-        this.game.opponent = switchSide(this.game.bot);
-    }
-
     determineColor(): Side {
-			return getS(DI.get('settings').GRID_NAME).innerHTML === '8' ? Side.Black : Side.White;
+			return getS(DI.get('settings').GRID_NAME).innerHTML === '8' ? Side.White : Side.Black;
     }
 
     getTimes(): void {
@@ -59,20 +46,6 @@ export class GameState implements IGameState {
     }
 
     get(): Game {
-        if (!this.oldGame || this.oldGame.gameOver && !this.game.gameOver) {
-            this.reset();
-            this.update();
-            
-            this.eh.trigger('game.new', this.game);
-        }
-
-        this.oldGame = this.game;
         return this.game;
     }
-
-    isGameStarted(): boolean {
-        const resign = getS(this.settings.RESIGN_BTN);
-    
-        return !!resign;
-      }
 }

@@ -14,10 +14,14 @@ export class Shutdown {
     now(): void {
         console.log('SHUTDOWN');
 
-        const engine = DI.get('chess.bot');
-        engine.stop();
+				this.engine();
 
         DI.get('dom.stop-observers');
         DI.get('heartbeat').stop();
-    }
+		}
+		
+		engine(): void {
+        const engine = DI.get('chess.bot');
+        engine.stop();
+		}
 }

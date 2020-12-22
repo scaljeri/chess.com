@@ -13,12 +13,11 @@ export class BrowserChessBoard implements IChessBoard {
 
     public opponent: Side;
     public bot: Side;
-    public grid: Record<string, { x: number, y: number }>;
 		private gridRect: DOMRect;
 		private squareSize: number;
 
     reset(): void {
-        this.grid = null;
+			this.gridRect = null;
     }
 
     getTimeLeftBottom(): string {

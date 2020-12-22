@@ -9,6 +9,7 @@ import { IBrowserSettings } from '../../../../models/browser-settings';
 import { getS } from '../../../utils/find';
 import { IMonitor } from '../../../../models/monitor';
 import { EVENT_TYPES } from '../../../event-types';
+import { IGameState } from '../../../interfaces/game-state';
 
 @Injectable({ name: 'monitor.live.move-using-clock' })
 export class ComputerMoveMonitorClock implements IMonitor {
@@ -22,13 +23,14 @@ export class ComputerMoveMonitorClock implements IMonitor {
   cleanup = () => {};
 
   start(cb: () => void = () => {}): IMonitor {
-		if (!this.gameEndCb) {
-			this.gameEndCb = () => {
-				this.clockState = null;
-			};
+		this.eh.on(EVENT_TYPES.GAME_END, () => this.clockState = null);
+		// if (!this.gameEndCb) {
+		// 	this.gameEndCb = () => {
+		// 		this.clockState = null;
+		// 	};
 
-			this.eh.on(EVENT_TYPES.GAME_END, this.gameEndCb);
-		}
+		// 	this.eh.on(EVENT_TYPES.GAME_END, this.gameEndCb);
+		// }
 
 		const el = getS(this.settings.PLAYER_DETAILS);
 		this.gameMoveObserver = DI.get<IDomObserver>('browser.dom.observer').observe(this.settings.PLAYER_DETAILS, () => {
@@ -36,7 +38,8 @@ export class ComputerMoveMonitorClock implements IMonitor {
 
 			if (clockState !== this.clockState) { // something happend on the board, our clock html changed
 				if (this.clockState === null) {
-					this.eh.trigger(EVENT_TYPES.GAME_START);
+					const game = DI.get<IGameState>('game.state').update().get();
+					this.eh.trigger(EVENT_TYPES.GAME_START, game);
 				}
 				if (clockState) {
 					this.eh.trigger(EVENT_TYPES.MOVE_END);
@@ -53,6 +56,7 @@ export class ComputerMoveMonitorClock implements IMonitor {
 
   stop(): void {
 		this.gameMoveObserver && this.gameMoveObserver.disconnect();
-		this.gameEndCb && this.eh.off(EVENT_TYPES.GAME_END, this.gameEndCb);
+		// this.gameEndCb && this.eh.off(EVENT_TYPES.GAME_END, this.gameEndCb);
+		
   }
 }

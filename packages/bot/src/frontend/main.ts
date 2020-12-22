@@ -62,16 +62,29 @@ eh.on('reload', () => {
 });
 
 eh.on('connect', () => {
-	// console.log('CONNECT YES', DI.get<IContextSettings>('context'));
-	// const settings = DI.get<IBrowserSettings>('settings');
 	const settings = DI.get<IBrowserSettings>('settings');
 	DI.get('monitor.move').start();
 	const chessBoard = DI.get<IChessBoard>('chessboard');
+	const heartbeat = DI.get('heartbeat');
+	const gameState = DI.get<IGameState>('game.state');
+
+	heartbeat.add(() => {
+		if (getS(settings.GAME_OVER)) {
+			console.log('GAME END');
+			eh.trigger(EVENT_TYPES.GAME_END, gameState.update().get());
+			heartbeat.stop();
+			DI.get('shutdown').engine();
+		}
+	});
 
 	eh.on('game.start', () => {
+		gameState.reset();
 		console.log('GAME START');
 		// TODO: Determine grid
+		chessBoard.buildGrid();
+		DI.get('heartbeat').start();
 	});
+
 	eh.on('move.start', async () => {
 		const game = await DI.get('game.history').createAsync(undefined, { lastMove: chessBoard.opponent });
 		doMove(game);
@@ -80,12 +93,7 @@ eh.on('connect', () => {
 		// console.log('MOVE END');
 	});
 
-	DI.get('heartbeat').start(() => {
-		if (getS(settings.END_DIALOG)) {
-			console.log('GAME END');
-			eh.trigger(EVENT_TYPES.GAME_END);
-		}
-	});
+	
 	DI.get<IDisplay>('display').inject(); // Show mini dashboard
 
 	// DI.get('chess.game.statistics');
@@ -155,10 +163,9 @@ function resize() {
 async function doMove(game: Game): Promise<Move> {
 	eh.trigger('bot.move.uci-start', game);
 	const move = await DI.get<IChessBot>('chess.bot').calculateMove(game);
-	eh.trigger('bot.move.uci-end', { move, game });
+	eh.trigger(EVENT_TYPES.UCI_MOVE_END, { move, game });
 
 	if (move) {
-		console.log('MAKE A MOVE BELOW', game, move)
 		DI.get('game.do-move').move(move);
 	}
 
