@@ -119,15 +119,6 @@ export class GameHistory {
 		});
 
 		return move;
-
-		// const icon = el.querySelector('span');
-		// let pieceChar = '';
-
-		// if (icon) {
-		// 	pieceChar = PIECE_MAP[icon.className.match(/\s([^-]+)[^ ]+$/)[1]];
-		// }
-
-		// return pieceChar + el.innerText;
 	}
 
 	isDraw(move: string): boolean {

@@ -50,17 +50,13 @@ if (oldDI) {
 window.addEventListener('resize', resize);
 // cleanup();
 
-eh.on('reload', () => {
+eh.on(EVENT_TYPES.RELOAD, () => {
 	console.log('RELOAD');
 	window.removeEventListener('resize', resize);
 	document.body.removeEventListener('click', gameStartListener);
+	DI.get('shutdown').now();
 
 	const serverPort = DI.get<IContextSettings>('context').serverPort;
-	DI.get('shutdown').now();
-	eh.reset();
-	DI.get('dom.observer').reset();
-
-	// DI.get<IChessBot>('chess.bot').stop(); // Make sure pondering stops
 	loadScript(`http://localhost:${serverPort}/files/browser/chess-utils`, '__chess-utils');
 });
 
@@ -107,6 +103,13 @@ eh.on(EVENT_TYPES.CONNECT, async () => {
 		});
 	}
 	eh.on(EVENT_TYPES.MOVE_START, moveListenerFn);
+
+	const reloadFn = () => {
+		eh.off(EVENT_TYPES.MOVE_START, moveListenerFn);
+		eh.off(EVENT_TYPES.RELOAD, reloadFn);
+	};
+	eh.on(EVENT_TYPES.RELOAD, reloadFn);
+
 	DI.get('monitor.move').start();
 
 	heartbeat.start(() => {

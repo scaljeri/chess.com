@@ -12,17 +12,18 @@ export class Shutdown {
 	}
 
 	now(): void {
-		console.log('SHUTDOWN');
+		console.log('SHUTDOWN....');
 
-		this.engine();
+		this.stopEngine();
 
 		DI.get('dom.stop-observers');
+		DI.get('eh').reset();
+		DI.get('dom.observer').reset()
 		DI.get('heartbeat').reset();
 	}
 
-	engine(): void {
+	stopEngine(): void {
 		const engine = DI.get('chess.bot');
-		console.log('stopping engine.....');
 		engine.stop();
 	}
 }

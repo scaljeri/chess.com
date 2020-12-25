@@ -5,5 +5,6 @@ export enum EVENT_TYPES {
 	MOVE_END = 'move.end',
 	UCI_MOVE_END = 'bot.move.uci-end',
 	CONNECT = 'connect',
-	RESIZE = 'browser.resize'
+	RESIZE = 'browser.resize',
+	RELOAD = 'reload',
 }
