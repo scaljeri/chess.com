@@ -17,16 +17,19 @@ export const COMPUTER_DEFAULTS = {
 	ACTION_AREA: '.board-player-bottom .clock-component', // .game-controls-component'
 
 	BOARD_NAME: '.board',
-	CLOCK: '.layout-bottom-player .move-time-content',
+	// CLOCK: '.layout-bottom-player .move-time-content',
 	CLOCK_OPP: '.layout-top-player .move-time-content',
-	CLOCK_ACTIVE: ':not(.move-time-inactive)',
+	// CLOCK_ACTIVE: ':not(.move-time-inactive)',
 	RESIGN_BTN: '.resign-button-label',
 
 	// new ---
 	GRID_NAME: '.coordinates > text',
+	PLAYERS: '.layout-player',
 	PLAYER_DETAILS: '.layout-bottom-player', // Name + clock
 	OPP_DETAILS: '.layout-top-player',  // Name + clock opponent
-	PLAYER_CLOCK_INACTIVE: '.move-time-inactive',
+	CLOCK: '.move-time-time',
+	CLOCK_INACTIVE: 'move-time-inactive',
+	CLOCK_ACTIVE: '.move-time-time:not(.move-time-inactive)',
 	MOVES_LIST: 'vertical-move-list > div',
 	MOVES_LIST_TURN: '.node',
 	CLOCK_TIMELEFT: '.move-time-content', // Need PLAYER_DETAILS and OPP_DETAILS

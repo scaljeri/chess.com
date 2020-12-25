@@ -19,7 +19,11 @@ export interface IBrowserSettings {
 		RESIGN_BTN?: string;
 
 		// new
+		PLAYERS: string,
 		PLAYER_DETAILS: string;
+		OPP_DETAILS: string,
+		CLOCK_TIMELEFT: string;
+		CLOCK_INACTIVE: string;
 		PLAYER_CLOCK_INACTIVE: string;
     MOVES_LIST: string;
 		MOVES_LIST_TURN: string;

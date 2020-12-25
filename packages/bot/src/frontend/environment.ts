@@ -19,7 +19,7 @@ export class Environment {
             'game-play': 'browser.game-play',
             'game.history': 'browser.game-history',
             'dom.observer': 'browser.dom.observer',
-            'dom.observers.stop': 'browser.dom.stop-observers',
+            // 'dom.observers.stop': 'browser.dom.stop-observers',
             'chess.bot': 'chess.bot',
             'heartbeat': 'basic.heartbeat',
 

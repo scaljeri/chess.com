@@ -16,6 +16,7 @@ export class LiveMover extends BrowserChessPiece {
     @Inject('display') display: IDisplay;
 
     move(move: Move): void {
+			console.log('MOVE MOVE', move);
         const piece = this.chessBoard.findPiece(move.from);
         const from = this.chessBoard.findCoordinates(move.from);
 				const to = this.chessBoard.findCoordinates(move.to);

@@ -7,6 +7,7 @@ import { IClient } from './interfaces/client';
 import { IContextSettings } from '../shared/interfaces/context-settings';
 import { IContext } from './interfaces/context';
 import { EventHub } from 'eventhub-xxl';
+import WebdriverIOAsync = require('webdriverio');
 
 
 declare var window: { __: DI }
@@ -78,22 +79,6 @@ export class Client implements IClient {
 			return this.page.click(selector);
 		}
 
-    async login() {
-			// await this.page.click('.icon-font-chess.modal-seo-close-icon');
-			// await this.page.click('.accept-button.svelte-mpzbuc');
-
-      //   const context = DI.get<IContext>('context');
-
-			// 	await this.page.click('.button.auth.login')
-      //   await this.page.type('#username', context.username);
-      //   await this.page.type('#password', context.password);
-			// 	await this.page.click('[type=submit]#login');
-
-			// await this.page
-			// 	.waitForSelector('.icon-font.close')
-			// 	.then(() => this.page.click('.icon-font.close'));
-		}
-		
 		async select(selector: string, value: string): Promise<void> {
 			return this.page.select(selector, value);
 		}
@@ -141,17 +126,18 @@ export class Client implements IClient {
     //     return this.waitUntilVisible(selector).$$();
     // }
 
-    // async scrollIntoView(selector: string): Promise<unknown> {
-    //     return this.execute((s: string) => {
-    //         document.querySelector(s).scrollIntoView();
-    //     }, selector);
-    // }
-    // async isExisting(selector): Promise<WebdriverIOAsync.Element> {
-    //     const el = await this.browser.$(selector);
-    //     const check = await el.isExisting();
+    async scrollIntoView(selector: string): Promise<unknown> {
+        return this.execute((s: string) => {
+            document.querySelector(s).scrollIntoView();
+        }, selector);
+		}
 
-    //     return check ? el : null;
-    // }
+    async isExisting(selector): Promise<WebdriverIOAsync.Element> {
+        const el = await this.browser.$(selector);
+        const check = await el.isExisting();
+
+        return check ? el : null;
+    }
 
     // async executeAsync(cb, ...args) {
     //     const output = await this.browser.executeAsync(cb, ...args);
@@ -161,46 +147,53 @@ export class Client implements IClient {
 
     // async execute(cb, ...args): Promise<unknown> {
     //     return this.browser.execute(cb, ...args);
-    // }
+		// }
+		
+		removeElement(selector): Promise<void> {
+			return this.execute(selector => {
+				const el = document.querySelector(selector);
+				el.parentElement.removeChild(el);
+			}, selector);
+		}
 
-    // waitUntilVisible(selector: string): { $: () => Promise<WebdriverIOAsync.Element>, $$: () => Promise<WebdriverIOAsync.Element[]> } {
-    //     function runCheck(checkFn) {
-    //         return new Promise(async (resolve) => {
-    //             const id = setInterval(async () => {
-    //                 const check = await checkFn();
+    waitUntilVisible(selector: string): { $: () => Promise<WebdriverIOAsync.Element>, $$: () => Promise<WebdriverIOAsync.Element[]> } {
+        function runCheck(checkFn) {
+            return new Promise<void>(async (resolve) => {
+                const id = setInterval(async () => {
+                    const check = await checkFn();
 
-    //                 if (check) {
-    //                     clearInterval(id);
-    //                     resolve();
-    //                 }
-    //             }, 200);
-    //         });
-    //     }
+                    if (check) {
+                        clearInterval(id);
+                        resolve();
+                    }
+                }, 200);
+            });
+        }
 
-    //     return {
-    //         $: async () => {
-    //             await runCheck(async () => {
-    //                 let el = await this.isExisting(selector);
-    //                 if (el) {
-    //                     el = await this.browser.$(selector);
-    //                     return await el.isDisplayedInViewport();
-    //                 } else {
-    //                     return false;
-    //                 }
-    //             });
+        return {
+            $: async () => {
+                await runCheck(async () => {
+                    let el = await this.isExisting(selector);
+                    if (el) {
+                        el = await this.browser.$(selector);
+                        return await el.isDisplayedInViewport();
+                    } else {
+                        return false;
+                    }
+                });
 
-    //             return this.browser.$(selector);
-    //         },
-    //         $$: async () => {
-    //             await runCheck(async () => {
-    //                 const list = await this.browser.$$(selector);
-    //                 return list.length > 0;
-    //             });
+                return this.browser.$(selector);
+            },
+            $$: async () => {
+                await runCheck(async () => {
+                    const list = await this.browser.$$(selector);
+                    return list.length > 0;
+                });
 
-    //             return this.browser.$$(selector);
-    //         }
-    //     }
-    // }
+                return this.browser.$$(selector);
+            }
+        }
+    }
 
     // async test(): Promise<number> {
     //     // TODO: Fix typings somehow

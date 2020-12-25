@@ -1,66 +1,62 @@
-import { Injectable, Inject, DI } from 'di-xxl';
-import { getS } from './find';
+import { Injectable, Inject } from 'di-xxl';
+import { getM } from './find';
 import { EventHub } from 'eventhub-xxl';
 import { IDomObserver } from '../interfaces/dom-observer';
 
-const observers: DomObserver[] = [];
-
-DI.set({
-    name: 'browser.dom.stop-observers',
-    ref: () => {
-        observers.forEach(o => o.disconnect());
-        observers.length = 0;
-    },
-    action: DI.ACTIONS.INVOKE
-});
-
 @Injectable('browser.dom.observer')
 export class DomObserver implements IDomObserver {
-    private observer: MutationObserver;
-    @Inject('eh') private eh: EventHub;
+	static observers: MutationObserver[] = [];
+	private observer: MutationObserver;
 
-    constructor() {
-        observers.push(this);
-    }
+	@Inject('eh') private eh: EventHub;
 
-    disconnect(): void {
-        this.observer.disconnect();
-        observers.splice(observers.indexOf(this), 1);
-    }
+	reset(): void {
+		DomObserver.observers.forEach(o => o.disconnect());
+		DomObserver.observers.length = 0;
+	}
 
-    observe(selector: string, eventName: ((el: HTMLElement) => void) | string, config?: MutationObserverInit): IDomObserver {
-				const target = getS(selector);
-				
-				if (!target) {
-					console.log('selector ' + selector + ' not found');
-					return ;
-				}
+	disconnect(): void {
+		console.log('DOM_OBSERVE DISCONNECT', this.observer);
+		this.observer.disconnect();
+		DomObserver.observers.splice(DomObserver.observers.indexOf(this.observer), 1);
+	}
 
-        // creëer een observer instantie
-        this.observer = new MutationObserver(mutations => {
-            const el = mutations[0].target as HTMLElement;
-            // console.log(selector, mutations);
+	observe(selector: string, eventName: ((el: HTMLElement) => void) | string, config?: MutationObserverInit): IDomObserver {
+		const targets = getM(selector);
 
-            if (typeof eventName === 'string' ) {
-                this.eh.trigger(eventName, el);
-            } else {
-                eventName(el);
-            }
-        });
+		if (targets.length === 0) {
+			console.log('selector ' + selector + ' not found');
+			return;
+		}
 
-        if (!config) {
-            config = {
-                attributes: true,
-                childList: true,
-                subtree: false,
-                attributeOldValue: true,
-                attributeFilter: ['class']
-            };
-        }
+		// creëer een observer instantie
+		this.observer = new MutationObserver(mutations => {
+			const el = mutations[0].target as HTMLElement;
+			// console.log(selector, mutations);
 
-        this.observer.observe(target, config);
-        observers.push(this);
+			if (typeof eventName === 'string') {
+				this.eh.trigger(eventName, el);
+			} else {
+				eventName(el);
+			}
+		});
 
-        return this;
-    }
+		if (!config) {
+			config = {
+				attributes: true,
+				childList: true,
+				subtree: false,
+				attributeOldValue: true,
+				attributeFilter: ['class']
+			};
+		}
+
+		for (let i = 0; i < targets.length; i++) {
+			this.observer.observe(targets[i], config);
+		}
+
+		DomObserver.observers.push(this.observer);
+
+		return this;
+	}
 }

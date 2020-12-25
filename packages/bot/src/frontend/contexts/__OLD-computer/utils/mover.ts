@@ -42,7 +42,7 @@ export class ComputerMove extends BrowserChessPiece {
             }
 
             if (move.promoteTo) {
-                this.promote(move.promoteTo);
+                // this.promote(move.promoteTo);
             }
 
         })

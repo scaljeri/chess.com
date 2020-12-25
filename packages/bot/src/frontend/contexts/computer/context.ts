@@ -10,14 +10,14 @@ export class ContextLive implements IContext {
              name: 'settings',
              ref: COMPUTER_DEFAULTS,
              action: DI.ACTIONS.NONE
-         });
+				 });
+				 
 
          DI.setProjection({
             //  'chess.game.monitor': 'browser.context.live.utils.monitor',
             //  'chess.game.monitor': 'browser.context.live.utils.board-monitor',
             // 'monitor.game-start': 'browser.context.live.utils.game-start-monitor',
-					 	'monitor.move': 'monitor.live.move-using-clock',
-
+					 	'monitor.move': 'monitor.live.move-trigger',
             'game.state': 'browser.context.live.utils.game-state',
             'game.do-move': 'browser.context.live.utils.mover',
             'chess.game.statistics': 'browser.game.statistics',

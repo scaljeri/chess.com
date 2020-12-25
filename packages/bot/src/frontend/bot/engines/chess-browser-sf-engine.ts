@@ -9,88 +9,93 @@ declare var Stockfish: any;
  */
 @Injectable({ name: 'browser.chess.engine.stockfish', singleton: true })
 export class StockfishEngine implements UCIChessEngine {
-    private port: number;
-    isPonderEnabled = false;
-    private engine: any;
-    private callback: (output: string) => void;
+	private port: number;
+	isPonderEnabled = false;
+	private engine: any;
+	private callback: (output: string) => void;
 
-    @Inject('context')
-    setSettings(context: IContextSettings): void {
-        this.port = context.serverPort;
-    }
+	@Inject('context')
+	setSettings(context: IContextSettings): void {
+		this.port = context.serverPort;
+	}
 
-    start(): Promise<void> {
-        if (this.engine) {
-            return;
-        }
+	private async loadStockfish(): Promise<void> {
+		return new Promise(resolve => {
+			const script = document.createElement('script');
+			script.onload = resolve as any; // ??
 
-        return new Promise(r => {
-            const script = document.createElement('script');
-            script.onload = () => {
-                this.engine = Stockfish();
-                this.engine.addMessageListener((line) => {
-                    if (this.callback) {
-                        this.callback(line as string);
-                    }
-                });
+			script.src = `http://localhost:${this.port}/files/stockfish/stockfish.js`;
+			document.head.appendChild(script);
+		});
+	}
 
-                this.engine.postMessage('uci');
-                // this.setOption(UCI_OPTIONS.HASH, 512);
-                this.setOption(UCI_OPTIONS.MOVE_OVERHEAD, 100);
-                this.setOption(UCI_OPTIONS.SLOW_MOVER, 10);
-                // this.setOption(UCI_OPTIONS.PONDER, true);  // --> Freezes the browser
-                r();
-            };
-            script.src = `http://localhost:${this.port}/files/stockfish/stockfish.js`;
-            document.head.appendChild(script); 
-        });
+	async start(): Promise<void> {
+		if (this.engine) {
+			return;
+		}
 
-        // this.cmd('uci');
-        // this.setOption(UCI_OPTIONS.PONDER, true);
-        // this.setOption(UCI_OPTIONS.MOVE_OVERHEAD, 200);
-        // this.setOption(UCI_OPTIONS.CONTEMPT, 0);
-        // this.setOption(UCI_OPTIONS.HASH, 1024);
-        // this.setOption(UCI_OPTIONS.SLOW_MOVER, 50);
-        // this.engine.onmessage = (event) => {
-        //     console.log(event.data as string);
-        //     if (this.callback) {
-        //         this.callback(event.data as string);
-        //     }
-        //     console.log(event.data);
-        // };
+		if (!window['Stockfish']) {
+			await this.loadStockfish()
+		}
+		this.engine = Stockfish();
+		this.engine.addMessageListener((line) => {
+			if (this.callback) {
+				this.callback(line as string);
+			}
+		});
 
-        // this.engine.setOption(UCI_OPTIONS.THREADS, 4);
-        // this.engine.setOption(UCI_OPTIONS.MOVE_OVERHEAD, 200);
-        // this.engine.setOption(UCI_OPTIONS.CONTEMPT, 0);
-        // this.engine.setOption(UCI_OPTIONS.HASH, 1024);
-        // this.engine.setOption(UCI_OPTIONS.SLOW_MOVER, 50);
+		this.engine.postMessage('uci');
+		// this.setOption(UCI_OPTIONS.HASH, 512);
+		this.setOption(UCI_OPTIONS.MOVE_OVERHEAD, 100);
+		this.setOption(UCI_OPTIONS.SLOW_MOVER, 10);
+		// this.setOption(UCI_OPTIONS.PONDER, true);  // --> Freezes the browser
 
-        //return Promise.resolve();
-    }
-    listen(cb: (info: string) => void): void {
-        this.callback = cb;
-    }
-    cmd(cmd: string): void {
-        this.engine.postMessage(cmd);
-    }
+		// this.cmd('uci');
+		// this.setOption(UCI_OPTIONS.PONDER, true);
+		// this.setOption(UCI_OPTIONS.MOVE_OVERHEAD, 200);
+		// this.setOption(UCI_OPTIONS.CONTEMPT, 0);
+		// this.setOption(UCI_OPTIONS.HASH, 1024);
+		// this.setOption(UCI_OPTIONS.SLOW_MOVER, 50);
+		// this.engine.onmessage = (event) => {
+		//     console.log(event.data as string);
+		//     if (this.callback) {
+		//         this.callback(event.data as string);
+		//     }
+		//     console.log(event.data);
+		// };
 
-    setOption(option: UCI_OPTIONS, value: string | number | boolean): void {
+		// this.engine.setOption(UCI_OPTIONS.THREADS, 4);
+		// this.engine.setOption(UCI_OPTIONS.MOVE_OVERHEAD, 200);
+		// this.engine.setOption(UCI_OPTIONS.CONTEMPT, 0);
+		// this.engine.setOption(UCI_OPTIONS.HASH, 1024);
+		// this.engine.setOption(UCI_OPTIONS.SLOW_MOVER, 50);
 
-        if (option === UCI_OPTIONS.PONDER) {
-            console.log('PONDERING IS NOT SUPPORTED');
-            // this.isPonderEnabled = Boolean(value);
-        } else {
-            this.cmd(`setoption name ${option} value ${value}`);
-        }
-    }
+		//return Promise.resolve();
+	}
+	listen(cb: (info: string) => void): void {
+		this.callback = cb;
+	}
+	cmd(cmd: string): void {
+		this.engine.postMessage(cmd);
+	}
 
-    stop(): void {
-        if (this.engine) {
-            this.engine.postMessage('stop');
-        }
-    }
+	setOption(option: UCI_OPTIONS, value: string | number | boolean): void {
 
-    getInfoMapper(): Record<string, number | Record<string, number>> {
-        return INFO_MAPPER;
-    }
+		if (option === UCI_OPTIONS.PONDER) {
+			console.log('PONDERING IS NOT SUPPORTED');
+			// this.isPonderEnabled = Boolean(value);
+		} else {
+			this.cmd(`setoption name ${option} value ${value}`);
+		}
+	}
+
+	stop(): void {
+		if (this.engine) {
+			this.engine.postMessage('stop');
+		}
+	}
+
+	getInfoMapper(): Record<string, number | Record<string, number>> {
+		return INFO_MAPPER;
+	}
 }

@@ -22,5 +22,6 @@ export class ComputerNavigation implements INavigationOpponent {
 			input.dispatchEvent(new Event('input'));
 		}, this.context.opponentStrength );
 		await this.client.select('.ui_v5-select-component.mode-selection-custom-select', this.context.duration)
+		await this.client.removeElement('#tall-sidebar-ad'); // Remove Ad
 	}
 }

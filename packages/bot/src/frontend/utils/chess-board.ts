@@ -21,12 +21,12 @@ export class BrowserChessBoard implements IChessBoard {
     }
 
     getTimeLeftBottom(): string {
-        const timeEl = getS(this.settings.CLOCK_BOTTOM);
+			const timeEl = getS(`${this.settings.PLAYER_DETAILS} ${this.settings.CLOCK_TIMELEFT}`);
         return timeEl ? timeEl.innerText : '';
     }
 
     getTimeLeftTop(): string {
-        const timeEl = getS(this.settings.CLOCK_TOP);
+				const timeEl = getS(`${this.settings.OPP_DETAILS} ${this.settings.CLOCK_TIMELEFT}`);
         return timeEl ? timeEl.innerText : '';
     }
 
@@ -46,7 +46,11 @@ export class BrowserChessBoard implements IChessBoard {
             this.buildGrid();
         }
 
-        const [col, row] = position.split('');
+				let [col, row] = position.split('');
+				if (this.bot === Side.b) {
+					row = String(9 - +row);
+					col = String.fromCharCode(97 + (104 - col.charCodeAt(0)));
+				}
 
 				const y = (8.5 - +row) * this.squareSize + this.gridRect.top; // this.grid[row].y; // + size + this.boardTop;
 				const x = (col.charCodeAt(0) - 96.5) * this.squareSize + this.gridRect.left; // 'a'.charCodeAt(0) === 97; // this.grid[col].x; // + size + this.boardLeft;

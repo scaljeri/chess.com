@@ -1,52 +1,47 @@
+// vertical-move-list
 import { Injectable, Inject, DI } from 'di-xxl';
-
-import { IDomObserver } from '../../../interfaces/dom-observer';
 
 import { EventHub } from 'eventhub-xxl';
 
+import { IDomObserver } from '../../../interfaces/dom-observer';
 import { IBrowserSettings } from '../../../../models/browser-settings';
-
-import { getS } from '../../../utils/find';
 import { IMonitor } from '../../../../models/monitor';
 import { EVENT_TYPES } from '../../../event-types';
+import { IGameState } from '../../../interfaces/game-state';
 
-@Injectable({ name: 'monitor.live.move-using-clock', singleton: true })
+@Injectable({ name: 'monitor.live.move-trigger', singleton: true })
 export class ComputerMoveMonitorClock implements IMonitor {
 	private gameMoveObserver: IDomObserver;
 
 	@Inject('eh') private eh: EventHub;
 	@Inject('settings') settings: IBrowserSettings;
+	@Inject('browser.context.live.utils.game-state') gameState: IGameState;
 
 	cleanup = () => { };
 
-	start(cb?: () => void,
-		selector = `${this.settings.PLAYER_DETAILS} ${this.settings.CLOCK}`,
-		deepCheck = false): IMonitor {
+	start() {
+		const selector = 'vertical-move-list'; 
+
 		this.stop();
 
 		this.gameMoveObserver = DI.get<IDomObserver>('browser.dom.observer').observe(selector, (mutation) => {
-			console.log('99999 mutation detected', this.gameMoveObserver);
-			cb ? cb() : this.handleMutations(mutation);
-		}, deepCheck ? { subtree: true, childList: true, attributes: true } :
-			{ subtree: false, childList: false, attributes: true });
-		this.handleMutations(getS(selector))
+			this.handleMutations(mutation);
+		}, { subtree: true, childList: true, attributes: true });
 
 		return this;
 	}
 
 	private handleMutations(mutation: HTMLElement): void {
-		if (mutation === null) {
-			return;
-		}
+		const game = this.gameState.update().get();
+    const lastMove = game.moves[game.moves.length -1];
 
-		if (!mutation.classList.contains(this.settings.CLOCK_INACTIVE)) {
+		if (lastMove.color !== game.bot) {
 			this.eh.trigger(EVENT_TYPES.MOVE_START);
-		} else {
-			this.eh.trigger(EVENT_TYPES.MOVE_END);
 		}
 	}
 
 	stop(): void {
+		console.log('stop listening to moves');
 		this.gameMoveObserver && this.gameMoveObserver.disconnect();
 	}
 }
