@@ -13,8 +13,6 @@ or
 
      $> lerna run build
 
-The final step is to define your chess.com credentials. This is described [here](packages/bot/README.md).
-     
 # Run - WebAssembly Stockfish
 My chess bot can be started as follows
 
@@ -22,6 +20,9 @@ My chess bot can be started as follows
 
 If you're lucky it will work and the browser will start and it shows the injected display at the 
 bottom left corner. If you select a bot and hit `Play` the WebAssembly Stockfish will start playing.
+
+Note: If it doesn't work you can go to `package/bot` and run `yarn build` and `yarn start` which will
+give you more detailed output!
 
 # Run - Docker Stockfish
 It is also possible to run the Docker Stockfish engine, which plays stronger. For that to work you need to reconfigure

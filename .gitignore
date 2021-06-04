@@ -14,3 +14,4 @@ d.ts
 storage/*
 **/*-di.ts
 **/tmp/*
+.history

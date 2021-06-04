@@ -11,7 +11,7 @@ export class ComputerNavigation implements INavigationOpponent {
 	async go() {
 		await this.client.goto('https://www.chess.com/play/computer');
 		await this.client.click('.icon-font-chess.modal-seo-close-icon');
-		await this.client.click('button.close'); // Cookie bar footer
+		// await this.client.click('button.close'); // Cookie bar footer
 		await this.client.click('.bot-selection-scroll > div:last-child');
 		await this.client.click('.selection-menu-footer');
 		await this.client.click('.mode-selection-mode > div:last-child');
