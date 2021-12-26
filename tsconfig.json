@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "skipLibCheck": true,
     "module": "commonjs",
     "declaration": true,
     "noImplicitAny": false,
@@ -10,8 +11,19 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./src",
-    "lib": ["es2018", "dom", "dom.iterable", "es6"],
+    "lib": [
+      "es2018",
+      "dom",
+      "dom.iterable",
+      "es6"
+    ],
     "importHelpers": true
   },
-  "exclude": ["node_modules", "**/*.spec.ts","dist"]
+  "exclude": [
+    "node_modules", //<-- this would be needed in case of VS2015
+    "node_modules/@typings",
+    "typings",
+    "**/*.spec.ts",
+    "dist"
+  ]
 }
