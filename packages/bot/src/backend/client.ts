@@ -51,7 +51,8 @@ export class Client implements IClient {
                 '--disable-web-security',
                 '--allow-running-insecure-content',
                 '--disable-notifications',
-                '--window-size=1920,1080'
+                '--window-size=1920,1080',
+                '--enable-features=SharedArrayBuffer'
             ]
             //slowMo: 500
         });
