@@ -12,7 +12,6 @@ export class ChessUCICombi {
     private color: Side;
 
     @Inject('eh') eh: EventHub;
-
     @Inject('browser.chess.uci.browser')
     setBrowserEngine(uci: UCI) {
         this.browserUCI = uci;
