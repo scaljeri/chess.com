@@ -37,7 +37,7 @@ export class StockfishEngine implements UCIChessEngine {
 		if (!window['Stockfish']) {
 			await this.loadStockfish()
 		}
-		this.engine = Stockfish();
+		this.engine = await Stockfish();
 		this.engine.addMessageListener((line) => {
 			if (this.callback) {
 				this.callback(line as string);

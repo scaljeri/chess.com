@@ -21,7 +21,7 @@ export class BackendChessBot implements IChessBot {
 
         const client = new ClientTCP({
             host: 'localhost',
-            port: 5000,
+            port: 5001,
         });
 
         await client.connect();

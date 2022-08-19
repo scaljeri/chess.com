@@ -6,4 +6,6 @@ export interface IClient {
 	upload: () => Promise<void>
 	select: (selector: string, value: string) => Promise<void>;
 	removeElement(selector: string): Promise<void>;
+	scrollIntoView(selector: string): Promise<unknown>;
+	waitUntilVisible(selector): { $: () => Promise<WebdriverIOAsync.Element>, $$: () => Promise<WebdriverIOAsync.Element[]> };
 }
