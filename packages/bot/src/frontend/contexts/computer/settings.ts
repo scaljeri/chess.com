@@ -18,15 +18,15 @@ export const COMPUTER_DEFAULTS = {
 
 	BOARD_NAME: '.board',
 	// CLOCK: '.layout-bottom-player .move-time-content',
-	CLOCK_OPP: '.layout-top-player .move-time-content',
+	CLOCK_OPP: '.player-row-top .move-time-content',
 	// CLOCK_ACTIVE: ':not(.move-time-inactive)',
 	RESIGN_BTN: '.resign-button-label',
 
 	// new ---
 	GRID_NAME: '.coordinates > text',
 	PLAYERS: '.layout-player',
-	PLAYER_DETAILS: '.layout-bottom-player', // Name + clock
-	OPP_DETAILS: '.layout-top-player',  // Name + clock opponent
+	PLAYER_DETAILS: '.player-row-component', // Name + clock
+	OPP_DETAILS: '.player-row-top',  // Name + clock opponent
 	CLOCK: '.move-time-time',
 	CLOCK_INACTIVE: 'move-time-inactive',
 	CLOCK_ACTIVE: '.move-time-time:not(.move-time-inactive)',

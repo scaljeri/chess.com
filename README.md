@@ -66,7 +66,6 @@ Checkout the other READMEs as well
   * [engine](packages/engines/README.md)
   * [opening book](packages/books/README.md)
   
-
   * [Dependency Injection library](https://github.com/scaljeri/di-xxl)
   * [EventHub library](https://github.com/scaljeri/eventhub-xxl)
   * UCI protocol: http://wbec-ridderkerk.nl/html/UCIProtocol.html

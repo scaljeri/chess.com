@@ -19,8 +19,20 @@ export class ComputerMoveMonitorClock implements IMonitor {
 
 	cleanup = () => { };
 
-	start() {
-		const selector = 'vertical-move-list'; 
+	async waitForSelector(selector) {
+		return new Promise(r => {
+			const id = setInterval(() => {
+				if (document.querySelector(selector)) {
+					window.clearInterval(id);
+					r(null);
+				}
+			}, 100);
+		})
+	}
+
+	async start() {
+		const selector = 'vertical-move-list';
+		await this.waitForSelector(selector);
 
 		this.stop();
 
@@ -33,7 +45,7 @@ export class ComputerMoveMonitorClock implements IMonitor {
 
 	private handleMutations(mutation: HTMLElement): void {
 		const game = this.gameState.update().get();
-    const lastMove = game.moves[game.moves.length -1];
+		const lastMove = game.moves[game.moves.length - 1];
 
 		if (lastMove.color !== game.bot) {
 			this.eh.trigger(EVENT_TYPES.MOVE_START);

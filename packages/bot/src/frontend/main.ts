@@ -32,7 +32,6 @@ DI.set({
 	singleton: true,
 });
 
-
 const eh = DI.get<EventHub>('eh');
 
 if (oldDI) {
@@ -144,7 +143,6 @@ function resize() {
 }
 
 async function doMove(game: Game): Promise<Move> {
-	console.log('---------------------', game);
 	eh.trigger('bot.move.uci-start', game);
 	const move = await DI.get<IChessBot>('chess.bot').calculateMove(game);
 	DI.get<IGameState>('game.state').addMove(game, move);
