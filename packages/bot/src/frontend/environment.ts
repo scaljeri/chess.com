@@ -25,8 +25,8 @@ export class Environment {
 
             // **** BOT CONFIGURATION ****/
             // Pure browser engine
-            'chess.engine.browser': 'browser.chess.engine.stockfish',
-            'chess.uci': 'browser.chess.uci.browser'
+             'chess.engine.browser': 'browser.chess.engine.stockfish',
+             'chess.uci': 'browser.chess.uci.browser'
 
             // Combi engine
             // 'chess.engine.browser': 'browser.chess.engine.stockfish',
