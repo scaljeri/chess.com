@@ -29,7 +29,7 @@ It is also possible to run the Docker Stockfish engine, which plays stronger. Fo
 the bot ([README](packages/bot/README.md)). This bot also uses my OpeningBook, but that will probably not work
 out of the box ( [README](packages/books/README.md)). It will however work without it.
 
-Finally you have to configure the browser bundle a bit. Open the file `[./packages/bot/src/frontend/environment.ts](packages/bot/src/frontend/environment.ts)`.
+Finally you have to configure the browser bundle a bit. Open the file [./packages/bot/src/frontend/environment.ts](packages/bot/src/frontend/environment.ts).
 It will have these lines
 
             // **** BOT CONFIGURATION ****/
